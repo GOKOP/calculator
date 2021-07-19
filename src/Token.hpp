@@ -4,6 +4,7 @@ struct Token {
 	enum Type {
 		Plus,
 		Minus,
+		Number,
 		Eof
 	};
 
