@@ -15,4 +15,5 @@ public:
 	std::unique_ptr<ASTNode> right;
 
 	BinOpNode(BinOpType type, std::unique_ptr<ASTNode> left, std::unique_ptr<ASTNode> right);
+	virtual void accept(NodeVisitor& visitor) override;
 };

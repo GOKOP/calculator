@@ -26,7 +26,7 @@ void Parser::eat(std::vector<Token::Type> types) {
 }
 
 std::unique_ptr<ASTNode> Parser::factor() {
-	auto node = std::make_unique<ASTNode>(NumberNode(current_token.value));
+	auto node = std::make_unique<NumberNode>(current_token.value);
 	eat(Token::Number);
 	return node;
 }
@@ -40,10 +40,10 @@ std::unique_ptr<ASTNode> Parser::expr() {
 
 		switch(token.type) {
 		case Token::Plus:
-			node = std::make_unique<ASTNode>(BinOpNode(BinOpNode::Plus, std::move(node), std::move(factor())));
+			node = std::make_unique<BinOpNode>(BinOpNode::Plus, std::move(node), std::move(factor()));
 			break;
 		case Token::Minus:
-			node = std::make_unique<ASTNode>(BinOpNode(BinOpNode::Minus, std::move(node), std::move(factor())));
+			node = std::make_unique<BinOpNode>(BinOpNode::Minus, std::move(node), std::move(factor()));
 			break;
 		default: break; // impossible anyway
 		}
