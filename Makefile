@@ -4,11 +4,9 @@ CFLAGS=-Isrc
 OBJDIR=obj
 SRCDIR=src
 
-_DEPS=Lexer.hpp Token.hpp
-_OBJ=main.o Lexer.o
-
-DEPS=$(patsubst %,$(SRCDIR)/%,$(_DEPS))
-OBJ=$(patsubst %,$(OBJDIR)/%,$(_OBJ))
+DEPS=$(wildcard $(SRCDIR)/*.hpp)
+SRC=$(wildcard $(SRCDIR)/*.cpp)
+OBJ=$(patsubst $(SRCDIR)/%.cpp,$(OBJDIR)/%.o,$(SRC))
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.cpp $(DEPS)
 	@mkdir -p $(@D)
