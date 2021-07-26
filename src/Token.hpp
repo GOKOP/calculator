@@ -6,6 +6,8 @@ struct Token {
 		Minus,
 		Mul,
 		Div,
+		Lparen,
+		Rparen,
 		Number,
 		Eof
 	};

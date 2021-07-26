@@ -36,6 +36,8 @@ Token Lexer::get_next_token() {
 			case '-': return { Token::Minus, 0 };
 			case '*': return { Token::Mul, 0 };
 			case '/': return { Token::Div, 0 };
+			case '(': return { Token::Lparen, 0 };
+			case ')': return { Token::Rparen, 0 };
 			default: throw(std::runtime_error("Invalid character"));
 		}
 	}

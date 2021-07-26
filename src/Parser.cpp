@@ -26,10 +26,19 @@ void Parser::eat(std::vector<Token::Type> types) {
 }
 
 std::unique_ptr<ASTNode> Parser::factor() {
-	// factor: Number
+	// factor: Number | Lparen add_expr Rparen
 
-	auto node = std::make_unique<NumberNode>(current_token.value);
-	eat(Token::Number);
+	std::unique_ptr<ASTNode> node;
+
+	if(current_token.type == Token::Lparen) {
+		eat(Token::Lparen);
+		node = add_expr();
+		eat(Token::Rparen);
+	} else {
+		node = std::make_unique<NumberNode>(current_token.value);
+		eat(Token::Number);
+	}
+
 	return node;
 }
 
@@ -82,7 +91,7 @@ std::unique_ptr<ASTNode> Parser::add_expr() {
 std::unique_ptr<ASTNode> Parser::parse() {
 	/* add_expr: mul_expr(Plus|Minus mul_expr)*
 	 * mul_expr: factor(Mul|Div factor)*
-	 * factor: Number 
+	 * factor: Number | Lparen add_expr Rparen
 	 */
 
 	auto tree = add_expr();
