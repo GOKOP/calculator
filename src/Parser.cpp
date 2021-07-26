@@ -26,12 +26,16 @@ void Parser::eat(std::vector<Token::Type> types) {
 }
 
 std::unique_ptr<ASTNode> Parser::factor() {
+	// factor: Number
+
 	auto node = std::make_unique<NumberNode>(current_token.value);
 	eat(Token::Number);
 	return node;
 }
 
 std::unique_ptr<ASTNode> Parser::expr() {
+	// expr: factor (Plus|Minus factor)*
+
 	auto node = factor();
 	
 	while(current_token.type == Token::Plus || current_token.type == Token::Minus) {
@@ -53,6 +57,10 @@ std::unique_ptr<ASTNode> Parser::expr() {
 }
 
 std::unique_ptr<ASTNode> Parser::parse() {
+	/* expr: factor(Plus|Minus factor)*
+	 * factor: Number 
+	 */
+
 	auto tree = expr();
 	eat(Token::Eof);
 	return tree;
