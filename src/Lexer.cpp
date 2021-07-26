@@ -15,19 +15,28 @@ int Lexer::get_number() {
 	return std::stoi(number_str);
 }
 
+void Lexer::skip_whitespace() {
+	while(current_char_index < input.size() && isspace(input[current_char_index])) {
+		++current_char_index;
+	}
+}
+
 Token Lexer::get_next_token() {
-	if(current_char_index >= input.size()) return { Token::Eof, 0 };
-
-	Token return_val;
+	while(current_char_index < input.size()) {
+		if(isspace(input[current_char_index])) {
+			skip_whitespace();
+			continue;
+		}
 	
-	if(isdigit(input[current_char_index])) return { Token::Number, get_number() };
-
-	switch(input[current_char_index]) {
-		case '+': return_val = { Token::Plus, 0 }; break;
-		case '-': return_val = { Token::Minus, 0 }; break;
-		default: throw(std::runtime_error("Invalid character"));
+		if(isdigit(input[current_char_index])) return { Token::Number, get_number() };
+	
+		++current_char_index;
+		switch(input[current_char_index - 1]) {
+			case '+': return { Token::Plus, 0 };
+			case '-': return { Token::Minus, 0 };
+			default: throw(std::runtime_error("Invalid character"));
+		}
 	}
 
-	++current_char_index;
-	return return_val;
+	return { Token::Eof, 0 };
 }
