@@ -11,15 +11,13 @@ void TreePrinter::visit(NumberNode& node) {
 void TreePrinter::visit(BinOpNode& node) {
 	if(node.type == BinOpNode::Plus) std::cout<<"Plus(";
 	else if(node.type == BinOpNode::Minus) std::cout<<"Minus(";
-	TreePrinter vis;
-	node.left->accept(vis);
+	node.left->accept(*this);
 	std::cout<<", ";
-	node.right->accept(vis);
+	node.right->accept(*this);
 	std::cout<<")";
 }
 
 void TreePrinter::print(std::unique_ptr<ASTNode>& tree) {
-	TreePrinter vis;
-	tree->accept(vis);
+	tree->accept(*this);
 	std::cout<<"\n";
 }
