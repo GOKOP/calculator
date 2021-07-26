@@ -13,7 +13,8 @@ class Parser {
 	void eat(Token::Type type);
 	void eat(std::vector<Token::Type> types);
 	std::unique_ptr<ASTNode> factor();
-	std::unique_ptr<ASTNode> expr();
+	std::unique_ptr<ASTNode> mul_expr();
+	std::unique_ptr<ASTNode> add_expr();
 
 public:
 	Parser(std::string input);

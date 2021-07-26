@@ -16,6 +16,8 @@ void Evaluator::visit(BinOpNode& node) {
 	switch(node.type) {
 		case BinOpNode::Plus: result = left+right; break;
 		case BinOpNode::Minus: result = left-right; break;
+		case BinOpNode::Mul: result = left*right; break;
+		case BinOpNode::Div: result = left/right; break;
 	}
 }
 

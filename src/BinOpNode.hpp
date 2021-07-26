@@ -7,7 +7,9 @@ class BinOpNode: public ASTNode {
 public:
 	enum BinOpType {
 		Plus,
-		Minus
+		Minus,
+		Mul,
+		Div
 	};
 
 	BinOpType type;
