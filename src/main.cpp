@@ -1,11 +1,16 @@
 #include <iostream>
+#include <string>
 
 #include "Parser.hpp"
 #include "Evaluator.hpp"
 
 int main() {
-	auto parser = Parser("14+22-5+3");
+	std::string input;
+	std::getline(std::cin, input);
+
+	auto parser = Parser(input);
 	auto tree = parser.parse();
+
 	Evaluator ev;
 	std::cout<<ev.evaluate(tree)<<std::endl;
 }
