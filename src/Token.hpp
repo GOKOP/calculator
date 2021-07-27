@@ -15,4 +15,5 @@ struct Token {
 
 	Type type;
 	double value; // only for numbers
+	std::size_t pos; // where in the input is the first character of this token
 };

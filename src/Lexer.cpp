@@ -31,24 +31,24 @@ Token Lexer::get_next_token() {
 			continue;
 		}
 	
-		if(isdigit(input[current_pos])) return { Token::Number, get_number() };
+		if(isdigit(input[current_pos])) return { Token::Number, get_number(), current_pos+1 };
 	
 		++current_pos;
 		switch(input[current_pos - 1]) {
-			case '+': return { Token::Plus, 0 };
-			case '-': return { Token::Minus, 0 };
-			case '*': return { Token::Mul, 0 };
-			case '/': return { Token::Div, 0 };
-			case '(': return { Token::Lparen, 0 };
-			case ')': return { Token::Rparen, 0 };
+			case '+': return { Token::Plus, 0, current_pos };
+			case '-': return { Token::Minus, 0, current_pos };
+			case '*': return { Token::Mul, 0, current_pos };
+			case '/': return { Token::Div, 0, current_pos };
+			case '(': return { Token::Lparen, 0, current_pos };
+			case ')': return { Token::Rparen, 0, current_pos };
 			default:
 				// not using += so that right hand side is converted to std::string which allows +
 				errors = errors + "Invalid character '" + input[current_pos - 1] + "' at position " + std::to_string(current_pos - 1) + "\n";
-				return { Token::Invalid, 0 };
+				return { Token::Invalid, 0, current_pos };
 		}
 	}
 
-	return { Token::Eof, 0 };
+	return { Token::Eof, 0, current_pos+1 };
 }
 
 std::string Lexer::get_errors() {
