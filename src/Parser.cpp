@@ -19,7 +19,10 @@ std::string show_token_type(Token::Type type) {
 	return "abomination";
 }
 
-Parser::Parser(std::string input): lexer(Lexer(input)) {
+Parser::Parser(std::string input): 
+	lexer(Lexer(input)),
+	errors("")
+{
 	current_token = lexer.get_next_token();
 }
 
