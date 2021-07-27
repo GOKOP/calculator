@@ -1,6 +1,7 @@
 #include "Parser.hpp"
 #include "BinOpNode.hpp"
 #include "NumberNode.hpp"
+#include "UnOpNode.hpp"
 
 #include <algorithm>
 
@@ -58,15 +59,25 @@ void Parser::eat(std::vector<Token::Type> types) {
 }
 
 std::unique_ptr<ASTNode> Parser::factor() {
-	// factor: Number | Lparen add_expr Rparen
+	// factor: (Plus|Minus) factor | Number | Lparen add_expr Rparen
 
 	std::unique_ptr<ASTNode> node;
 
-	if(current_token.type == Token::Lparen) {
+	switch(current_token.type) {
+	case Token::Plus:
+		eat(Token::Plus);
+		node = std::make_unique<UnOpNode>(UnOpNode::Plus, std::move(factor()));
+		break;
+	case Token::Minus:
+		eat(Token::Minus);
+		node = std::make_unique<UnOpNode>(UnOpNode::Minus, std::move(factor()));
+		break;
+	case Token::Lparen:
 		eat(Token::Lparen);
 		node = add_expr();
 		eat(Token::Rparen);
-	} else {
+		break;
+	default:
 		node = std::make_unique<NumberNode>(current_token.value);
 		eat(Token::Number);
 	}
@@ -137,7 +148,7 @@ std::variant<std::unique_ptr<ASTNode>, std::string> Parser::parse() {
 	/* add_expr: mul_expr(Plus|Minus mul_expr)*
 	 * mul_expr: pow_expr(Mul|Div pow_expr)*
 	 * pow_expr: factor(Pow factor)*
-	 * factor: Number | Lparen add_expr Rparen
+	 * factor: (Plus|Minus) factor | Number | Lparen add_expr Rparen
 	 */
 
 	auto tree = add_expr();

@@ -23,6 +23,16 @@ void Evaluator::visit(BinOpNode& node) {
 	}
 }
 
+void Evaluator::visit(UnOpNode& node) {
+	node.arg->accept(*this);
+	auto arg = result;
+
+	switch(node.type) {
+		case UnOpNode::Plus: result = arg; break;
+		case UnOpNode::Minus: result = -arg; break;
+	}
+}
+
 double Evaluator::evaluate(std::unique_ptr<ASTNode>& tree) {
 	tree->accept(*this);
 	return result;
