@@ -10,6 +10,7 @@ int main() {
 	std::string input;
 
 	while(true) {
+		std::cout<<"> ";
 		std::getline(std::cin, input);
 	
 		auto parser = Parser(input);
