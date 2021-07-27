@@ -86,7 +86,7 @@ std::unique_ptr<ASTNode> Parser::factor() {
 }
 
 std::unique_ptr<ASTNode> Parser::pow_expr() {
-	// add_expr: mul_expr (Plus|Minus mul_expr)*
+	// pow_expr: mul_expr (Pow mul_expr)*
 
 	auto node = factor();
 	
@@ -99,7 +99,7 @@ std::unique_ptr<ASTNode> Parser::pow_expr() {
 }
 
 std::unique_ptr<ASTNode> Parser::mul_expr() {
-	// add_expr: mul_expr (Plus|Minus mul_expr)*
+	// mul_expr: pow_expr (Mul|Div mul_expr)*
 
 	auto node = pow_expr();
 	
