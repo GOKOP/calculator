@@ -17,7 +17,6 @@ std::string show_token_type(Token::Type type) {
 		case Token::Lparen:  return "'('";
 		case Token::Rparen:  return "')'";
 		case Token::Number:  return "a number";
-		case Token::Invalid: return "invalid token";
 		case Token::Eof:     return "end of input";
 	}
 	return "abomination";
@@ -30,15 +29,7 @@ Parser::Parser(std::string input):
 	current_token = lexer.get_next_token();
 }
 
-void Parser::ignore_invalid() {
-	while(current_token.type == Token::Invalid) {
-		current_token = lexer.get_next_token();
-	}
-}
-
 void Parser::eat(Token::Type type) {
-	ignore_invalid();
-
 	if(current_token.type == type) {
 		current_token = lexer.get_next_token();
 	} else {
@@ -47,8 +38,6 @@ void Parser::eat(Token::Type type) {
 }
 
 void Parser::eat(std::vector<Token::Type> types) {
-	ignore_invalid();
-
 	if(std::find(types.begin(), types.end(), current_token.type) != types.end()) {
 		current_token = lexer.get_next_token();
 	} else {

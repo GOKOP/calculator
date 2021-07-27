@@ -53,7 +53,7 @@ Token Lexer::get_next_token() {
 			if(word == "sqrt") return { Token::Sqrt, 0, current_pos+1 };
 			if(word == "cbrt") return { Token::Cbrt, 0, current_pos+1 };
 			errors += "Invalid function '" + word + "' ignored at position " + std::to_string(pos) + "\n";
-			return { Token::Invalid, 0, pos };
+			continue;
 		}
 	
 		++current_pos;
@@ -68,7 +68,7 @@ Token Lexer::get_next_token() {
 			default:
 				// not using += so that right hand side is converted to std::string which allows +
 				errors = errors + "Invalid character '" + input[current_pos - 1] + "' ignored at position " + std::to_string(current_pos) + "\n";
-				return { Token::Invalid, 0, current_pos };
+				continue;
 		}
 	}
 

@@ -12,7 +12,6 @@ struct Token {
 		Lparen,
 		Rparen,
 		Number,
-		Invalid, // made from invalid input characters
 		Eof
 	};
 

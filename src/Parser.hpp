@@ -12,7 +12,6 @@ class Parser {
 	Token current_token;
 	std::string errors;
 
-	void ignore_invalid();
 	void eat(Token::Type type);
 	void eat(std::vector<Token::Type> types);
 	std::unique_ptr<ASTNode> function();
