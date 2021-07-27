@@ -9,7 +9,8 @@ public:
 		Plus,
 		Minus,
 		Mul,
-		Div
+		Div,
+		Pow
 	};
 
 	BinOpType type;

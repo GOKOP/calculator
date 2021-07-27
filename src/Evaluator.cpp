@@ -1,4 +1,5 @@
 #include "Evaluator.hpp"
+#include <cmath>
 
 Evaluator::Evaluator(): result(0) {}
 
@@ -18,6 +19,7 @@ void Evaluator::visit(BinOpNode& node) {
 		case BinOpNode::Minus: result = left-right; break;
 		case BinOpNode::Mul: result = left*right; break;
 		case BinOpNode::Div: result = left/right; break;
+		case BinOpNode::Pow: result = pow(left, right); break;
 	}
 }
 

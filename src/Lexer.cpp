@@ -39,6 +39,7 @@ Token Lexer::get_next_token() {
 			case '-': return { Token::Minus, 0, current_pos };
 			case '*': return { Token::Mul, 0, current_pos };
 			case '/': return { Token::Div, 0, current_pos };
+			case '^': return { Token::Pow, 0, current_pos };
 			case '(': return { Token::Lparen, 0, current_pos };
 			case ')': return { Token::Rparen, 0, current_pos };
 			default:

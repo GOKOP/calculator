@@ -10,6 +10,7 @@ std::string show_token_type(Token::Type type) {
 		case Token::Minus:   return "'-'";
 		case Token::Mul:     return "'*'";
 		case Token::Div:     return "'/'";
+		case Token::Pow:     return "'^'";
 		case Token::Lparen:  return "'('";
 		case Token::Rparen:  return "')'";
 		case Token::Number:  return "a number";
@@ -73,10 +74,23 @@ std::unique_ptr<ASTNode> Parser::factor() {
 	return node;
 }
 
-std::unique_ptr<ASTNode> Parser::mul_expr() {
+std::unique_ptr<ASTNode> Parser::pow_expr() {
 	// add_expr: mul_expr (Plus|Minus mul_expr)*
 
 	auto node = factor();
+	
+	while(current_token.type == Token::Pow) {
+		eat(Token::Pow);
+		node = std::make_unique<BinOpNode>(BinOpNode::Pow, std::move(node), std::move(factor()));
+	}
+
+	return node;
+}
+
+std::unique_ptr<ASTNode> Parser::mul_expr() {
+	// add_expr: mul_expr (Plus|Minus mul_expr)*
+
+	auto node = pow_expr();
 	
 	while(current_token.type == Token::Mul || current_token.type == Token::Div) {
 		auto token = current_token;
@@ -84,10 +98,10 @@ std::unique_ptr<ASTNode> Parser::mul_expr() {
 
 		switch(token.type) {
 		case Token::Mul:
-			node = std::make_unique<BinOpNode>(BinOpNode::Mul, std::move(node), std::move(factor()));
+			node = std::make_unique<BinOpNode>(BinOpNode::Mul, std::move(node), std::move(pow_expr()));
 			break;
 		case Token::Div:
-			node = std::make_unique<BinOpNode>(BinOpNode::Div, std::move(node), std::move(factor()));
+			node = std::make_unique<BinOpNode>(BinOpNode::Div, std::move(node), std::move(pow_expr()));
 			break;
 		default: break; // impossible anyway
 		}
@@ -121,7 +135,8 @@ std::unique_ptr<ASTNode> Parser::add_expr() {
 
 std::variant<std::unique_ptr<ASTNode>, std::string> Parser::parse() {
 	/* add_expr: mul_expr(Plus|Minus mul_expr)*
-	 * mul_expr: factor(Mul|Div factor)*
+	 * mul_expr: pow_expr(Mul|Div pow_expr)*
+	 * pow_expr: factor(Pow factor)*
 	 * factor: Number | Lparen add_expr Rparen
 	 */
 
