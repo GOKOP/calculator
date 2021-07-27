@@ -51,7 +51,8 @@ Token Lexer::get_next_token() {
 			auto pos = current_pos + 1;
 			auto word = get_word();
 			if(word == "sqrt") return { Token::Sqrt, 0, current_pos+1 };
-			errors += "Invalid function '" + word + "' at position " + std::to_string(pos);
+			errors += "Invalid function '" + word + "' ignored at position " + std::to_string(pos) + "\n";
+			return { Token::Invalid, 0, pos };
 		}
 	
 		++current_pos;
@@ -65,7 +66,7 @@ Token Lexer::get_next_token() {
 			case ')': return { Token::Rparen, 0, current_pos };
 			default:
 				// not using += so that right hand side is converted to std::string which allows +
-				errors = errors + "Invalid character '" + input[current_pos - 1] + "' at position " + std::to_string(current_pos - 1) + "\n";
+				errors = errors + "Invalid character '" + input[current_pos - 1] + "' ignored at position " + std::to_string(current_pos) + "\n";
 				return { Token::Invalid, 0, current_pos };
 		}
 	}
