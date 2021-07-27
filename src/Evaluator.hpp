@@ -6,12 +6,12 @@
 #include "NodeVisitor.hpp"
 
 class Evaluator: public NodeVisitor {
-	int result;
+	double result;
 public:
 	Evaluator();
 
 	virtual void visit(NumberNode& node) override;
 	virtual void visit(BinOpNode& node) override;
 	
-	int evaluate(std::unique_ptr<ASTNode>& tree);
+	double evaluate(std::unique_ptr<ASTNode>& tree);
 };

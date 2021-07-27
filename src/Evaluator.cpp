@@ -21,7 +21,7 @@ void Evaluator::visit(BinOpNode& node) {
 	}
 }
 
-int Evaluator::evaluate(std::unique_ptr<ASTNode>& tree) {
+double Evaluator::evaluate(std::unique_ptr<ASTNode>& tree) {
 	tree->accept(*this);
 	return result;
 }

@@ -4,15 +4,15 @@
 
 Lexer::Lexer(std::string input): input(input), current_char_index(0) {}
 
-int Lexer::get_number() {
+double Lexer::get_number() {
 	std::string number_str;
 
-	while(isdigit(input[current_char_index])) {
+	while(isdigit(input[current_char_index]) || input[current_char_index] == '.') {
 		number_str += (input[current_char_index]);
 		++current_char_index;
 	}
 
-	return std::stoi(number_str);
+	return std::stod(number_str);
 }
 
 void Lexer::skip_whitespace() {

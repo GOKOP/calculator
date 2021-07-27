@@ -4,7 +4,7 @@
 
 class NumberNode: public ASTNode {
 public:
-	int value;
-	NumberNode(int value);
+	double value;
+	NumberNode(double value);
 	virtual void accept(NodeVisitor& visitor) override;
 };

@@ -13,5 +13,5 @@ struct Token {
 	};
 
 	Type type;
-	int value; // only for numbers
+	double value; // only for numbers
 };

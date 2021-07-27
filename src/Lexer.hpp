@@ -7,7 +7,7 @@ class Lexer {
 	std::string input;
 	std::size_t current_char_index;
 	
-	int get_number();
+	double get_number();
 	void skip_whitespace();
 public:
 	Lexer(std::string input);
