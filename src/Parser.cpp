@@ -12,6 +12,7 @@ std::string show_token_type(Token::Type type) {
 		case Token::Mul:     return "'*'";
 		case Token::Div:     return "'/'";
 		case Token::Pow:     return "'^'";
+		case Token::Sqrt:    return "'sqrt'";
 		case Token::Lparen:  return "'('";
 		case Token::Rparen:  return "')'";
 		case Token::Number:  return "a number";
@@ -58,8 +59,18 @@ void Parser::eat(std::vector<Token::Type> types) {
 	}
 }
 
+std::unique_ptr<ASTNode> Parser::function() {
+	// function: Sqrt Lparen add_expr Rparen
+	
+	eat(Token::Sqrt);
+	eat(Token::Lparen);
+	auto node = std::make_unique<UnOpNode>(UnOpNode::Sqrt, std::move(add_expr()));
+	eat(Token::Rparen);
+	return node;
+}
+
 std::unique_ptr<ASTNode> Parser::factor() {
-	// factor: (Plus|Minus) factor | Number | Lparen add_expr Rparen
+	// factor: (Plus|Minus) factor | Number | Lparen add_expr Rparen | function
 
 	std::unique_ptr<ASTNode> node;
 
@@ -76,6 +87,9 @@ std::unique_ptr<ASTNode> Parser::factor() {
 		eat(Token::Lparen);
 		node = add_expr();
 		eat(Token::Rparen);
+		break;
+	case Token::Sqrt:
+		node = function();
 		break;
 	default:
 		node = std::make_unique<NumberNode>(current_token.value);
@@ -148,7 +162,8 @@ std::variant<std::unique_ptr<ASTNode>, std::string> Parser::parse() {
 	/* add_expr: mul_expr(Plus|Minus mul_expr)*
 	 * mul_expr: pow_expr(Mul|Div pow_expr)*
 	 * pow_expr: factor(Pow factor)*
-	 * factor: (Plus|Minus) factor | Number | Lparen add_expr Rparen
+	 * factor: (Plus|Minus) factor | Number | Lparen add_expr Rparen | function
+	 * function: Sqrt Lparen add_expr Rparen
 	 */
 
 	auto tree = add_expr();

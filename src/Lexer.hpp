@@ -9,6 +9,7 @@ class Lexer {
 	std::string errors;
 	
 	double get_number();
+	std::string get_word();
 	void skip_whitespace();
 public:
 	Lexer(std::string input);

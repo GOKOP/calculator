@@ -7,6 +7,7 @@ struct Token {
 		Mul,
 		Div,
 		Pow,
+		Sqrt,
 		Lparen,
 		Rparen,
 		Number,

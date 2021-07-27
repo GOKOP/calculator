@@ -30,6 +30,7 @@ void Evaluator::visit(UnOpNode& node) {
 	switch(node.type) {
 		case UnOpNode::Plus: result = arg; break;
 		case UnOpNode::Minus: result = -arg; break;
+		case UnOpNode::Sqrt: result = sqrt(arg); break;
 	}
 }
 

@@ -18,6 +18,17 @@ double Lexer::get_number() {
 	return std::stod(number_str);
 }
 
+std::string Lexer::get_word() {
+	std::string result;
+
+	while(isalnum(input[current_pos])) {
+		result += input[current_pos];
+		++current_pos;
+	}
+
+	return result;
+}
+
 void Lexer::skip_whitespace() {
 	while(current_pos < input.size() && isspace(input[current_pos])) {
 		++current_pos;
@@ -32,6 +43,12 @@ Token Lexer::get_next_token() {
 		}
 	
 		if(isdigit(input[current_pos])) return { Token::Number, get_number(), current_pos+1 };
+
+		if(isalnum(input[current_pos])) {
+			auto word = get_word();
+			if(word == "sqrt") return { Token::Sqrt, 0, current_pos+1 };
+			errors += "Invalid function '" + word + "' at position " + std::to_string(current_pos+1);
+		}
 	
 		++current_pos;
 		switch(input[current_pos - 1]) {

@@ -8,7 +8,8 @@ class UnOpNode: public ASTNode {
 public:
 	enum UnOpType {
 		Plus,
-		Minus
+		Minus,
+		Sqrt
 	};
 
 	UnOpType type;
