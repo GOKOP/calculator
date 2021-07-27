@@ -1,5 +1,5 @@
 CC=g++
-CFLAGS=-Isrc
+CFLAGS=-Isrc -Wall -Wextra
 
 OBJDIR=obj
 SRCDIR=src
