@@ -51,6 +51,7 @@ Token Lexer::get_next_token() {
 			auto pos = current_pos + 1;
 			auto word = get_word();
 			if(word == "sqrt") return { Token::Sqrt, 0, current_pos+1 };
+			if(word == "cbrt") return { Token::Cbrt, 0, current_pos+1 };
 			errors += "Invalid function '" + word + "' ignored at position " + std::to_string(pos) + "\n";
 			return { Token::Invalid, 0, pos };
 		}

@@ -9,7 +9,8 @@ public:
 	enum UnOpType {
 		Plus,
 		Minus,
-		Sqrt
+		Sqrt,
+		Cbrt
 	};
 
 	UnOpType type;

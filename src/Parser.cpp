@@ -13,6 +13,7 @@ std::string show_token_type(Token::Type type) {
 		case Token::Div:     return "'/'";
 		case Token::Pow:     return "'^'";
 		case Token::Sqrt:    return "'sqrt'";
+		case Token::Cbrt:    return "'cbrt'";
 		case Token::Lparen:  return "'('";
 		case Token::Rparen:  return "')'";
 		case Token::Number:  return "a number";
@@ -61,11 +62,26 @@ void Parser::eat(std::vector<Token::Type> types) {
 
 std::unique_ptr<ASTNode> Parser::function() {
 	// function: Sqrt Lparen add_expr Rparen
+
+	std::unique_ptr<ASTNode> node;
 	
-	eat(Token::Sqrt);
-	eat(Token::Lparen);
-	auto node = std::make_unique<UnOpNode>(UnOpNode::Sqrt, std::move(add_expr()));
-	eat(Token::Rparen);
+	switch(current_token.type) {
+	case Token::Sqrt:
+		eat(Token::Sqrt);
+		eat(Token::Lparen);
+		node = std::make_unique<UnOpNode>(UnOpNode::Sqrt, std::move(add_expr()));
+		eat(Token::Rparen);
+		break;
+	case Token::Cbrt:
+		eat(Token::Cbrt);
+		eat(Token::Lparen);
+		node = std::make_unique<UnOpNode>(UnOpNode::Cbrt, std::move(add_expr()));
+		eat(Token::Rparen);
+		break;
+	default:
+		eat({Token::Sqrt, Token::Cbrt});
+	}
+
 	return node;
 }
 
@@ -88,7 +104,8 @@ std::unique_ptr<ASTNode> Parser::factor() {
 		node = add_expr();
 		eat(Token::Rparen);
 		break;
-	case Token::Sqrt:
+	case Token::Sqrt: 
+	case Token::Cbrt:
 		node = function();
 		break;
 	default:

@@ -31,6 +31,7 @@ void Evaluator::visit(UnOpNode& node) {
 		case UnOpNode::Plus: result = arg; break;
 		case UnOpNode::Minus: result = -arg; break;
 		case UnOpNode::Sqrt: result = sqrt(arg); break;
+		case UnOpNode::Cbrt: result = cbrt(arg); break;
 	}
 }
 
