@@ -5,7 +5,7 @@
 
 class Lexer {
 	std::string input;
-	std::size_t current_char_index;
+	std::size_t current_pos;
 	std::string errors;
 	
 	double get_number();

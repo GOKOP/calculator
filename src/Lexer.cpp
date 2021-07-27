@@ -3,38 +3,38 @@
 
 Lexer::Lexer(std::string input): 
 	input(input), 
-	current_char_index(0),
+	current_pos(0),
 	errors("")
 {}
 
 double Lexer::get_number() {
 	std::string number_str;
 
-	while(isdigit(input[current_char_index]) || input[current_char_index] == '.') {
-		number_str += (input[current_char_index]);
-		++current_char_index;
+	while(isdigit(input[current_pos]) || input[current_pos] == '.') {
+		number_str += (input[current_pos]);
+		++current_pos;
 	}
 
 	return std::stod(number_str);
 }
 
 void Lexer::skip_whitespace() {
-	while(current_char_index < input.size() && isspace(input[current_char_index])) {
-		++current_char_index;
+	while(current_pos < input.size() && isspace(input[current_pos])) {
+		++current_pos;
 	}
 }
 
 Token Lexer::get_next_token() {
-	while(current_char_index < input.size()) {
-		if(isspace(input[current_char_index])) {
+	while(current_pos < input.size()) {
+		if(isspace(input[current_pos])) {
 			skip_whitespace();
 			continue;
 		}
 	
-		if(isdigit(input[current_char_index])) return { Token::Number, get_number() };
+		if(isdigit(input[current_pos])) return { Token::Number, get_number() };
 	
-		++current_char_index;
-		switch(input[current_char_index - 1]) {
+		++current_pos;
+		switch(input[current_pos - 1]) {
 			case '+': return { Token::Plus, 0 };
 			case '-': return { Token::Minus, 0 };
 			case '*': return { Token::Mul, 0 };
@@ -43,7 +43,7 @@ Token Lexer::get_next_token() {
 			case ')': return { Token::Rparen, 0 };
 			default:
 				// not using += so that right hand side is converted to std::string which allows +
-				errors = errors + "Invalid character '" + input[current_char_index - 1] + "' at position " + std::to_string(current_char_index - 1) + "\n";
+				errors = errors + "Invalid character '" + input[current_pos - 1] + "' at position " + std::to_string(current_pos - 1) + "\n";
 				return { Token::Invalid, 0 };
 		}
 	}
