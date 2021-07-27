@@ -61,7 +61,7 @@ void Parser::eat(std::vector<Token::Type> types) {
 }
 
 std::unique_ptr<ASTNode> Parser::function() {
-	// function: Sqrt Lparen add_expr Rparen
+	// function: Sqrt|Cbrt Lparen add_expr Rparen
 
 	std::unique_ptr<ASTNode> node;
 	
@@ -180,7 +180,7 @@ std::variant<std::unique_ptr<ASTNode>, std::string> Parser::parse() {
 	 * mul_expr: pow_expr(Mul|Div pow_expr)*
 	 * pow_expr: factor(Pow factor)*
 	 * factor: (Plus|Minus) factor | Number | Lparen add_expr Rparen | function
-	 * function: Sqrt Lparen add_expr Rparen
+	 * function: Sqrt|Cbrt Lparen add_expr Rparen
 	 */
 
 	auto tree = add_expr();
