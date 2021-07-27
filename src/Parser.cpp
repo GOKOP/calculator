@@ -4,6 +4,21 @@
 
 #include <algorithm>
 
+std::string show_token_type(Token::Type type) {
+	switch(type) {
+		case Token::Plus:    return "'+'";
+		case Token::Minus:   return "'-'";
+		case Token::Mul:     return "'*'";
+		case Token::Div:     return "'/'";
+		case Token::Lparen:  return "'('";
+		case Token::Rparen:  return "')'";
+		case Token::Number:  return "a number";
+		case Token::Invalid: return "invalid token";
+		case Token::Eof:     return "end of input";
+	}
+	return "abomination";
+}
+
 Parser::Parser(std::string input): lexer(Lexer(input)) {
 	current_token = lexer.get_next_token();
 }
@@ -17,10 +32,10 @@ void Parser::ignore_invalid() {
 void Parser::eat(Token::Type type) {
 	ignore_invalid();
 
-	if(current_token.type == type || current_token.type == Token::Invalid) {
+	if(current_token.type == type) {
 		current_token = lexer.get_next_token();
 	} else {
-		errors += "Parser error\n";
+		errors += "Invalid syntax: expected " + show_token_type(type) + "; found " + show_token_type(current_token.type) + "\n";
 	}
 }
 
@@ -30,7 +45,11 @@ void Parser::eat(std::vector<Token::Type> types) {
 	if(std::find(types.begin(), types.end(), current_token.type) != types.end()) {
 		current_token = lexer.get_next_token();
 	} else {
-		errors += "Parser error\n";
+		errors += "Invalid syntax: expected one of: ";
+		for(auto type : types) {
+			errors += show_token_type(type) + ",";
+		}
+		errors += "; found " + show_token_type(current_token.type) + "\n";
 	}
 }
 
