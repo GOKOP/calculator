@@ -42,12 +42,16 @@ Token Lexer::get_next_token() {
 			continue;
 		}
 	
-		if(isdigit(input[current_pos])) return { Token::Number, get_number(), current_pos+1 };
+		if(isdigit(input[current_pos])) {
+			auto pos = current_pos + 1;
+			return { Token::Number, get_number(), pos };
+		}
 
 		if(isalnum(input[current_pos])) {
+			auto pos = current_pos + 1;
 			auto word = get_word();
 			if(word == "sqrt") return { Token::Sqrt, 0, current_pos+1 };
-			errors += "Invalid function '" + word + "' at position " + std::to_string(current_pos+1);
+			errors += "Invalid function '" + word + "' at position " + std::to_string(pos);
 		}
 	
 		++current_pos;
