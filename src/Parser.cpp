@@ -2,26 +2,35 @@
 #include "BinOpNode.hpp"
 #include "NumberNode.hpp"
 
-#include <stdexcept>
 #include <algorithm>
 
 Parser::Parser(std::string input): lexer(Lexer(input)) {
 	current_token = lexer.get_next_token();
 }
 
+void Parser::ignore_invalid() {
+	while(current_token.type == Token::Invalid) {
+		current_token = lexer.get_next_token();
+	}
+}
+
 void Parser::eat(Token::Type type) {
-	if(current_token.type == type) {
+	ignore_invalid();
+
+	if(current_token.type == type || current_token.type == Token::Invalid) {
 		current_token = lexer.get_next_token();
 	} else {
-		throw(std::runtime_error("Invalid syntax"));
+		errors += "Parser error\n";
 	}
 }
 
 void Parser::eat(std::vector<Token::Type> types) {
+	ignore_invalid();
+
 	if(std::find(types.begin(), types.end(), current_token.type) != types.end()) {
 		current_token = lexer.get_next_token();
 	} else {
-		throw(std::runtime_error("Invalid syntax"));
+		errors += "Parser error\n";
 	}
 }
 
@@ -88,7 +97,7 @@ std::unique_ptr<ASTNode> Parser::add_expr() {
 	return node;
 }
 
-std::unique_ptr<ASTNode> Parser::parse() {
+std::variant<std::unique_ptr<ASTNode>, std::string> Parser::parse() {
 	/* add_expr: mul_expr(Plus|Minus mul_expr)*
 	 * mul_expr: factor(Mul|Div factor)*
 	 * factor: Number | Lparen add_expr Rparen
@@ -96,5 +105,9 @@ std::unique_ptr<ASTNode> Parser::parse() {
 
 	auto tree = add_expr();
 	eat(Token::Eof);
+
+	auto total_errors = lexer.get_errors() + errors;
+	if(!total_errors.empty()) return total_errors;
+
 	return tree;
 }

@@ -1,8 +1,11 @@
 #include "Lexer.hpp"
 #include <cctype>
-#include <stdexcept>
 
-Lexer::Lexer(std::string input): input(input), current_char_index(0) {}
+Lexer::Lexer(std::string input): 
+	input(input), 
+	current_char_index(0),
+	errors("")
+{}
 
 double Lexer::get_number() {
 	std::string number_str;
@@ -38,9 +41,16 @@ Token Lexer::get_next_token() {
 			case '/': return { Token::Div, 0 };
 			case '(': return { Token::Lparen, 0 };
 			case ')': return { Token::Rparen, 0 };
-			default: throw(std::runtime_error("Invalid character"));
+			default:
+				// not using += so that right hand side is converted to std::string which allows +
+				errors = errors + "Invalid character '" + input[current_char_index - 1] + "' at position " + std::to_string(current_char_index - 1) + "\n";
+				return { Token::Invalid, 0 };
 		}
 	}
 
 	return { Token::Eof, 0 };
+}
+
+std::string Lexer::get_errors() {
+	return errors;
 }

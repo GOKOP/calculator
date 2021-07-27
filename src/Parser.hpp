@@ -5,11 +5,14 @@
 
 #include <vector>
 #include <memory>
+#include <variant>
 
 class Parser {
 	Lexer lexer;
 	Token current_token;
+	std::string errors;
 
+	void ignore_invalid();
 	void eat(Token::Type type);
 	void eat(std::vector<Token::Type> types);
 	std::unique_ptr<ASTNode> factor();
@@ -18,5 +21,5 @@ class Parser {
 
 public:
 	Parser(std::string input);
-	std::unique_ptr<ASTNode> parse();
+	std::variant<std::unique_ptr<ASTNode>, std::string> parse();
 };
