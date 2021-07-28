@@ -3,7 +3,6 @@
 #include "NumberNode.hpp"
 #include "BinOpNode.hpp"
 #include "UnOpNode.hpp"
-#include "ASTNode.hpp"
 #include "NodeVisitor.hpp"
 
 #include <string>
