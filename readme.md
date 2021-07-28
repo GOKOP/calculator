@@ -15,26 +15,26 @@ Make sure you you have make and a fairly recent version of gcc installed, then j
 ### Windows
 
 You need make (for example from [here](http://gnuwin32.sourceforge.net/packages/make.htm)) and a fairly recent version of gcc (for example from [here](https://winlibs.com/)).
-Make sure that relevant binaries and includes are in your %PATH%
+Make sure that relevant binaries and includes are in your `%PATH%`
 and then either run `make windows` from cmd or `make` from some POSIX shell.
 
 ## Usage
 
 Valid operations are: (where x and y are numbers, named functions or expressions in parentheses)
-- +x – unary plus
-- -x – unary minus
-- x + y – addition
-- x - y – subtraction
-- x * y – multiplication
-- x / y – division
-- x ^ y – x to the power of y
-- sqrt(x) – square root
-- cbrt(x) – cubic root
-- root(x, y) – root of base y
-- sin(x) – sine
-- cos(x) – cosine
-- tan(x) – tangent
-- ctg(x) – cotangent
-- asin(x) – arcsine
-- acos(x) – arccosine
-- atan(x) – arctangent
+- `+x` – unary plus
+- `-x` – unary minus
+- `x + y` – addition
+- `x - y` – subtraction
+- `x * y` – multiplication
+- `x / y` – division
+- `x ^ y` – x to the power of y
+- `sqrt(x)` – square root
+- `cbrt(x)` – cubic root
+- `root(x, y)` – root of base y
+- `sin(x)` – sine
+- `cos(x)` – cosine
+- `tan(x)` – tangent
+- `ctg(x)` – cotangent
+- `asin(x)` – arcsine
+- `acos(x)` – arccosine
+- `atan(x)` – arctangent
