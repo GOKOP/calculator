@@ -58,7 +58,7 @@ void Parser::eat(std::vector<Token::Type> types) {
 	}
 }
 
-// this function is allow not to return a value
+// this function is allowed not to return a value
 // so that it can work as a check for whether or not there's a function
 // otherwise factor() would have an ugly long case fallthrough
 std::optional<std::unique_ptr<ASTNode>> Parser::function() {
