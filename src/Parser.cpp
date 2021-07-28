@@ -164,7 +164,7 @@ std::unique_ptr<ASTNode> Parser::add_expr() {
 	return node;
 }
 
-std::variant<std::unique_ptr<ASTNode>, std::string> Parser::parse() {
+std::variant<std::pair<std::unique_ptr<ASTNode>, std::string>, std::string> Parser::parse() {
 	/* add_expr: mul_expr(Plus|Minus mul_expr)*
 	 * mul_expr: pow_expr(Mul|Div pow_expr)*
 	 * pow_expr: factor(Pow factor)*
@@ -175,8 +175,7 @@ std::variant<std::unique_ptr<ASTNode>, std::string> Parser::parse() {
 	auto tree = add_expr();
 	eat(Token::Eof);
 
-	auto total_errors = lexer.get_errors() + errors;
-	if(!total_errors.empty()) return total_errors;
+	if(!errors.empty()) return lexer.get_errors() + errors;
 
-	return tree;
+	return std::make_pair(std::move(tree), lexer.get_errors());
 }

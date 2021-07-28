@@ -16,10 +16,11 @@ int main() {
 		std::unique_ptr<ASTNode> tree;
 
 		auto maybe_tree = parser.parse();
-		if(std::holds_alternative<std::unique_ptr<ASTNode>>(maybe_tree)) {
-			auto tree = std::move(std::get<std::unique_ptr<ASTNode>>(maybe_tree));
+		if(std::holds_alternative<std::pair<std::unique_ptr<ASTNode>, std::string>>(maybe_tree)) {
+			auto res = std::move(std::get<std::pair<std::unique_ptr<ASTNode>, std::string>>(maybe_tree));
 			Evaluator ev;
-			std::cout<<ev.evaluate(tree)<<std::endl;
+			if(!res.second.empty()) std::cout<<res.second;
+			std::cout<<ev.evaluate(res.first)<<std::endl;
 		} else {
 			std::cout<<std::get<std::string>(maybe_tree)<<std::endl;
 		}

@@ -6,6 +6,7 @@
 #include <vector>
 #include <memory>
 #include <variant>
+#include <utility>
 
 class Parser {
 	Lexer lexer;
@@ -22,5 +23,9 @@ class Parser {
 
 public:
 	Parser(std::string input);
-	std::variant<std::unique_ptr<ASTNode>, std::string> parse();
+
+	// ok this looks ugly but it's all because lexer errors are basically ignored
+	// parse() returns a variant with either a correctly formed AST *and* lexer errors,
+	// *or* lexer errors concatenated with parser errors
+	std::variant<std::pair<std::unique_ptr<ASTNode>, std::string>, std::string> parse();
 };
