@@ -42,7 +42,9 @@ void Parser::eat(Token::Type type) {
 	if(current_token.type == type) {
 		current_token = lexer.get_next_token();
 	} else {
-		errors += "Invalid syntax at position " + std::to_string(current_token.pos) + ": expected " + show_token_type(type) + "; found " + show_token_type(current_token.type) + "\n";
+		errors += "Invalid syntax at position " + std::to_string(current_token.pos);
+		errors += ": expected " + show_token_type(type) + "; found ";
+		errors += show_token_type(current_token.type) + "\n";
 	}
 }
 
@@ -50,7 +52,8 @@ void Parser::eat(std::vector<Token::Type> types) {
 	if(std::find(types.begin(), types.end(), current_token.type) != types.end()) {
 		current_token = lexer.get_next_token();
 	} else {
-		errors += "Invalid syntax at position " + std::to_string(current_token.pos) + ": expected one of: ";
+		errors += "Invalid syntax at position " + std::to_string(current_token.pos);
+		errors += ": expected one of: ";
 		for(auto type : types) {
 			errors += show_token_type(type) + ",";
 		}
