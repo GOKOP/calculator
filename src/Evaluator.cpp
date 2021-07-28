@@ -27,7 +27,9 @@ void Evaluator::visit(BinOpNode& node) {
 		case BinOpNode::Pow: result = pow(left, right); break;
 		case BinOpNode::Root: 
 			if(fmod(right, 2) == 0 && left < 0) errors += "Error: Even root of a negative number\n";
-			result = pow(left, 1/right); break;
+			else if(left < 0) result = -pow(-left, 1/right);
+			else result = pow(left, 1/right);
+			break;
 	}
 }
 
