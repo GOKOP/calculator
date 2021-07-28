@@ -43,8 +43,6 @@ int main() {
 		}
 	
 		auto parser = Parser(input);
-		std::unique_ptr<ASTNode> tree;
-
 		auto maybe_tree = parser.parse();
 		if(std::holds_alternative<std::pair<std::unique_ptr<ASTNode>, std::string>>(maybe_tree)) {
 			auto res = std::move(std::get<std::pair<std::unique_ptr<ASTNode>, std::string>>(maybe_tree));
