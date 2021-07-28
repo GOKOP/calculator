@@ -76,7 +76,7 @@ Token Lexer::get_next_token() {
 			case ')': return { Token::Rparen, 0, current_pos };
 			case ',': return { Token::Comma, 0, current_pos };
 			default:
-				errors += "Invalid character '" + input[current_pos - 1];
+				errors += std::string("Invalid character '") + input[current_pos - 1];
 				errors += "' ignored at position " + std::to_string(current_pos) + "\n";
 				continue;
 		}
