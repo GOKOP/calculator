@@ -9,6 +9,8 @@ struct Token {
 		Pow,
 		Sqrt,
 		Cbrt,
+		Root,
+		Comma,
 		Lparen,
 		Rparen,
 		Number,

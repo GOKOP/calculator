@@ -20,6 +20,7 @@ void Evaluator::visit(BinOpNode& node) {
 		case BinOpNode::Mul: result = left*right; break;
 		case BinOpNode::Div: result = left/right; break;
 		case BinOpNode::Pow: result = pow(left, right); break;
+		case BinOpNode::Root: result = pow(left, 1/right); break;
 	}
 }
 

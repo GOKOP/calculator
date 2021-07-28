@@ -14,6 +14,8 @@ std::string show_token_type(Token::Type type) {
 		case Token::Pow:     return "'^'";
 		case Token::Sqrt:    return "'sqrt'";
 		case Token::Cbrt:    return "'cbrt'";
+		case Token::Root:    return "'root'";
+		case Token::Comma:   return "','";
 		case Token::Lparen:  return "'('";
 		case Token::Rparen:  return "')'";
 		case Token::Number:  return "a number";
@@ -50,7 +52,7 @@ void Parser::eat(std::vector<Token::Type> types) {
 }
 
 std::unique_ptr<ASTNode> Parser::function() {
-	// function: Sqrt|Cbrt Lparen add_expr Rparen
+	// function: (Sqrt|Cbrt Lparen add_expr Rparen)|(Root Lparen add_expr Comma add_expr)
 
 	std::unique_ptr<ASTNode> node;
 	
@@ -67,8 +69,16 @@ std::unique_ptr<ASTNode> Parser::function() {
 		node = std::make_unique<UnOpNode>(UnOpNode::Cbrt, std::move(add_expr()));
 		eat(Token::Rparen);
 		break;
+	case Token::Root:
+		eat(Token::Root);
+		eat(Token::Lparen);
+		node = add_expr();
+		eat(Token::Comma);
+		node = std::make_unique<BinOpNode>(BinOpNode::Root, std::move(node), std::move(add_expr()));
+		eat(Token::Rparen);
+		break;
 	default:
-		eat({Token::Sqrt, Token::Cbrt});
+		eat({Token::Sqrt, Token::Cbrt, Token::Root});
 	}
 
 	return node;
@@ -95,6 +105,7 @@ std::unique_ptr<ASTNode> Parser::factor() {
 		break;
 	case Token::Sqrt: 
 	case Token::Cbrt:
+	case Token::Root:
 		node = function();
 		break;
 	default:
@@ -169,7 +180,7 @@ std::variant<std::pair<std::unique_ptr<ASTNode>, std::string>, std::string> Pars
 	 * mul_expr: pow_expr(Mul|Div pow_expr)*
 	 * pow_expr: factor(Pow factor)*
 	 * factor: (Plus|Minus) factor | Number | Lparen add_expr Rparen | function
-	 * function: Sqrt|Cbrt Lparen add_expr Rparen
+	 * function: (Sqrt|Cbrt Lparen add_expr Rparen)|(Root Lparen add_expr Comma add_expr)
 	 */
 
 	auto tree = add_expr();

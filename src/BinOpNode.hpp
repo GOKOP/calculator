@@ -10,7 +10,8 @@ public:
 		Minus,
 		Mul,
 		Div,
-		Pow
+		Pow,
+		Root
 	};
 
 	BinOpType type;

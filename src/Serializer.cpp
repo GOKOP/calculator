@@ -9,8 +9,18 @@ void Serializer::visit(NumberNode& node) {
 }
 
 void Serializer::visit(BinOpNode& node) {
+	if(node.type == BinOpNode::Root) {
+		result += "root(";
+		node.left->accept(*this);
+		result += ", ";
+		node.right->accept(*this);
+		result += ")";
+		return;
+	}
+
 	auto brackets = true;
-	if(result.empty() || result.back() == '(') brackets = false;
+	if(result.empty() || result.back() == '(' ||
+	   (result.back() == ' ' && result.at(result.size()-2) == ',')) brackets = false;
 
 	if(brackets) result += "(";
 	node.left->accept(*this);
@@ -21,6 +31,7 @@ void Serializer::visit(BinOpNode& node) {
 		case BinOpNode::Mul: result += " * "; break;
 		case BinOpNode::Div: result += " / "; break;
 		case BinOpNode::Pow: result += " ^ "; break;
+		default: break; // checked before to not be the case
 	}
 
 	node.right->accept(*this);
