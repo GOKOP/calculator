@@ -77,28 +77,28 @@ std::optional<std::unique_ptr<ASTNode>> Parser::function() {
 	
 	switch(token_type) {
 	case Token::Sqrt: 
-		node = std::make_unique<UnOpNode>(UnOpNode::Sqrt, std::move(add_expr())); break;
+		node = std::make_unique<UnOpNode>(UnOpNode::Sqrt, add_expr()); break;
 	case Token::Cbrt:
-		node = std::make_unique<UnOpNode>(UnOpNode::Cbrt, std::move(add_expr())); break;
+		node = std::make_unique<UnOpNode>(UnOpNode::Cbrt, add_expr()); break;
 	case Token::Root:
 		node = add_expr();
 		eat(Token::Comma);
-		node = std::make_unique<BinOpNode>(BinOpNode::Root, std::move(node), std::move(add_expr()));
+		node = std::make_unique<BinOpNode>(BinOpNode::Root, std::move(node), add_expr());
 		break;
 	case Token::Sin:
-		node = std::make_unique<UnOpNode>(UnOpNode::Sin, std::move(add_expr())); break;
+		node = std::make_unique<UnOpNode>(UnOpNode::Sin, add_expr()); break;
 	case Token::Cos:
-		node = std::make_unique<UnOpNode>(UnOpNode::Cos, std::move(add_expr())); break;
+		node = std::make_unique<UnOpNode>(UnOpNode::Cos, add_expr()); break;
 	case Token::Tan:
-		node = std::make_unique<UnOpNode>(UnOpNode::Tan, std::move(add_expr())); break;
+		node = std::make_unique<UnOpNode>(UnOpNode::Tan, add_expr()); break;
 	case Token::Ctg:
-		node = std::make_unique<UnOpNode>(UnOpNode::Ctg, std::move(add_expr())); break;
+		node = std::make_unique<UnOpNode>(UnOpNode::Ctg, add_expr()); break;
 	case Token::Asin:
-		node = std::make_unique<UnOpNode>(UnOpNode::Asin, std::move(add_expr())); break;
+		node = std::make_unique<UnOpNode>(UnOpNode::Asin, add_expr()); break;
 	case Token::Acos:
-		node = std::make_unique<UnOpNode>(UnOpNode::Acos, std::move(add_expr())); break;
+		node = std::make_unique<UnOpNode>(UnOpNode::Acos, add_expr()); break;
 	case Token::Atan:
-		node = std::make_unique<UnOpNode>(UnOpNode::Atan, std::move(add_expr())); break;
+		node = std::make_unique<UnOpNode>(UnOpNode::Atan, add_expr()); break;
 	default: break;
 	}
 
@@ -118,11 +118,11 @@ std::unique_ptr<ASTNode> Parser::factor() {
 	switch(current_token.type) {
 	case Token::Plus:
 		eat(Token::Plus);
-		node = std::make_unique<UnOpNode>(UnOpNode::Plus, std::move(factor()));
+		node = std::make_unique<UnOpNode>(UnOpNode::Plus, factor());
 		break;
 	case Token::Minus:
 		eat(Token::Minus);
-		node = std::make_unique<UnOpNode>(UnOpNode::Minus, std::move(factor()));
+		node = std::make_unique<UnOpNode>(UnOpNode::Minus, factor());
 		break;
 	case Token::Lparen:
 		eat(Token::Lparen);
@@ -144,7 +144,7 @@ std::unique_ptr<ASTNode> Parser::pow_expr() {
 	
 	while(current_token.type == Token::Pow) {
 		eat(Token::Pow);
-		node = std::make_unique<BinOpNode>(BinOpNode::Pow, std::move(node), std::move(factor()));
+		node = std::make_unique<BinOpNode>(BinOpNode::Pow, std::move(node), factor());
 	}
 
 	return node;
@@ -161,10 +161,10 @@ std::unique_ptr<ASTNode> Parser::mul_expr() {
 
 		switch(token.type) {
 		case Token::Mul:
-			node = std::make_unique<BinOpNode>(BinOpNode::Mul, std::move(node), std::move(pow_expr()));
+			node = std::make_unique<BinOpNode>(BinOpNode::Mul, std::move(node), pow_expr());
 			break;
 		case Token::Div:
-			node = std::make_unique<BinOpNode>(BinOpNode::Div, std::move(node), std::move(pow_expr()));
+			node = std::make_unique<BinOpNode>(BinOpNode::Div, std::move(node), pow_expr());
 			break;
 		default: break; // impossible anyway
 		}
@@ -184,10 +184,10 @@ std::unique_ptr<ASTNode> Parser::add_expr() {
 
 		switch(token.type) {
 		case Token::Plus:
-			node = std::make_unique<BinOpNode>(BinOpNode::Plus, std::move(node), std::move(mul_expr()));
+			node = std::make_unique<BinOpNode>(BinOpNode::Plus, std::move(node), mul_expr());
 			break;
 		case Token::Minus:
-			node = std::make_unique<BinOpNode>(BinOpNode::Minus, std::move(node), std::move(mul_expr()));
+			node = std::make_unique<BinOpNode>(BinOpNode::Minus, std::move(node), mul_expr());
 			break;
 		default: break; // impossible anyway
 		}
