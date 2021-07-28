@@ -33,6 +33,13 @@ void Evaluator::visit(UnOpNode& node) {
 		case UnOpNode::Minus: result = -arg; break;
 		case UnOpNode::Sqrt: result = sqrt(arg); break;
 		case UnOpNode::Cbrt: result = cbrt(arg); break;
+		case UnOpNode::Sin: result = sin(arg); break;
+		case UnOpNode::Cos: result = cos(arg); break;
+		case UnOpNode::Tan: result = tan(arg); break;
+		case UnOpNode::Ctg: result = 1/tan(arg); break;
+		case UnOpNode::Asin: result = asin(arg); break;
+		case UnOpNode::Acos: result = acos(arg); break;
+		case UnOpNode::Atan: result = atan(arg); break;
 	}
 }
 

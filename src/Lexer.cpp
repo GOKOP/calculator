@@ -53,6 +53,13 @@ Token Lexer::get_next_token() {
 			if(word == "sqrt") return { Token::Sqrt, 0, current_pos+1 };
 			if(word == "cbrt") return { Token::Cbrt, 0, current_pos+1 };
 			if(word == "root") return { Token::Root, 0, current_pos+1 };
+			if(word == "sin") return { Token::Sin, 0, current_pos+1 };
+			if(word == "cos") return { Token::Cos, 0, current_pos+1 };
+			if(word == "tan") return { Token::Tan, 0, current_pos+1 };
+			if(word == "ctg") return { Token::Ctg, 0, current_pos+1 };
+			if(word == "asin") return { Token::Asin, 0, current_pos+1 };
+			if(word == "acos") return { Token::Acos, 0, current_pos+1 };
+			if(word == "atan") return { Token::Atan, 0, current_pos+1 };
 			errors += "Invalid function '" + word + "' ignored at position " + std::to_string(pos) + "\n";
 			continue;
 		}

@@ -15,6 +15,13 @@ std::string show_token_type(Token::Type type) {
 		case Token::Sqrt:    return "'sqrt'";
 		case Token::Cbrt:    return "'cbrt'";
 		case Token::Root:    return "'root'";
+		case Token::Sin:     return "'sin'";
+		case Token::Cos:     return "'cos'";
+		case Token::Tan:     return "'tan'";
+		case Token::Ctg:     return "'ctg'";
+		case Token::Asin:    return "'asin'";
+		case Token::Acos:    return "'acos'";
+		case Token::Atan:    return "'atan'";
 		case Token::Comma:   return "','";
 		case Token::Lparen:  return "'('";
 		case Token::Rparen:  return "')'";
@@ -51,41 +58,60 @@ void Parser::eat(std::vector<Token::Type> types) {
 	}
 }
 
-std::unique_ptr<ASTNode> Parser::function() {
-	// function: (Sqrt|Cbrt Lparen add_expr Rparen)|(Root Lparen add_expr Comma add_expr)
+// this function is allow not to return a value
+// so that it can work as a check for whether or not there's a function
+// otherwise factor() would have an ugly long case fallthrough
+std::optional<std::unique_ptr<ASTNode>> Parser::function() {
+	// function: (Sqrt|Cbrt|Sin|Cos|Tan|Ctg|Asin|Acos|Atan Lparen add_expr Rparen)|
+	//           (Root Lparen add_expr Comma add_expr)
 
 	std::unique_ptr<ASTNode> node;
+
+	auto token_type = current_token.type;
+	auto func_tokens = {Token::Sqrt, Token::Cbrt, Token::Root, 
+	                    Token::Sin, Token::Cos, Token::Tan, Token::Ctg,
+	                    Token::Asin, Token::Acos, Token::Atan};
+	if(std::find(func_tokens.begin(), func_tokens.end(), token_type) == func_tokens.end()) return {};
+	eat(func_tokens);
+	eat(Token::Lparen);
 	
-	switch(current_token.type) {
-	case Token::Sqrt:
-		eat(Token::Sqrt);
-		eat(Token::Lparen);
-		node = std::make_unique<UnOpNode>(UnOpNode::Sqrt, std::move(add_expr()));
-		eat(Token::Rparen);
-		break;
+	switch(token_type) {
+	case Token::Sqrt: 
+		node = std::make_unique<UnOpNode>(UnOpNode::Sqrt, std::move(add_expr())); break;
 	case Token::Cbrt:
-		eat(Token::Cbrt);
-		eat(Token::Lparen);
-		node = std::make_unique<UnOpNode>(UnOpNode::Cbrt, std::move(add_expr()));
-		eat(Token::Rparen);
-		break;
+		node = std::make_unique<UnOpNode>(UnOpNode::Cbrt, std::move(add_expr())); break;
 	case Token::Root:
-		eat(Token::Root);
-		eat(Token::Lparen);
 		node = add_expr();
 		eat(Token::Comma);
 		node = std::make_unique<BinOpNode>(BinOpNode::Root, std::move(node), std::move(add_expr()));
-		eat(Token::Rparen);
 		break;
-	default:
-		eat({Token::Sqrt, Token::Cbrt, Token::Root});
+	case Token::Sin:
+		node = std::make_unique<UnOpNode>(UnOpNode::Sin, std::move(add_expr())); break;
+	case Token::Cos:
+		node = std::make_unique<UnOpNode>(UnOpNode::Cos, std::move(add_expr())); break;
+	case Token::Tan:
+		node = std::make_unique<UnOpNode>(UnOpNode::Tan, std::move(add_expr())); break;
+	case Token::Ctg:
+		node = std::make_unique<UnOpNode>(UnOpNode::Ctg, std::move(add_expr())); break;
+	case Token::Asin:
+		node = std::make_unique<UnOpNode>(UnOpNode::Asin, std::move(add_expr())); break;
+	case Token::Acos:
+		node = std::make_unique<UnOpNode>(UnOpNode::Acos, std::move(add_expr())); break;
+	case Token::Atan:
+		node = std::make_unique<UnOpNode>(UnOpNode::Atan, std::move(add_expr())); break;
+	default: break;
 	}
+
+	eat(Token::Rparen);
 
 	return node;
 }
 
 std::unique_ptr<ASTNode> Parser::factor() {
 	// factor: (Plus|Minus) factor | Number | Lparen add_expr Rparen | function
+
+	auto maybe_node = function();
+	if(maybe_node.has_value()) return std::move(maybe_node.value());
 
 	std::unique_ptr<ASTNode> node;
 
@@ -102,11 +128,6 @@ std::unique_ptr<ASTNode> Parser::factor() {
 		eat(Token::Lparen);
 		node = add_expr();
 		eat(Token::Rparen);
-		break;
-	case Token::Sqrt: 
-	case Token::Cbrt:
-	case Token::Root:
-		node = function();
 		break;
 	default:
 		node = std::make_unique<NumberNode>(current_token.value);
@@ -180,7 +201,8 @@ std::variant<std::pair<std::unique_ptr<ASTNode>, std::string>, std::string> Pars
 	 * mul_expr: pow_expr(Mul|Div pow_expr)*
 	 * pow_expr: factor(Pow factor)*
 	 * factor: (Plus|Minus) factor | Number | Lparen add_expr Rparen | function
-	 * function: (Sqrt|Cbrt Lparen add_expr Rparen)|(Root Lparen add_expr Comma add_expr)
+	 * function: (Sqrt|Cbrt|Sin|Cos|Tan|Ctg|Asin|Acos|Atan Lparen add_expr Rparen)|
+	 *           (Root Lparen add_expr Comma add_expr)
 	 */
 
 	auto tree = add_expr();

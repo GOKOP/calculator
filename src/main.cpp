@@ -18,7 +18,14 @@ void print_help() {
 		"x ^ y\n"
 		"sqrt(x)\n"
 		"cbrt(x)\n"
-		"root(x, y)\n";
+		"root(x, y)\n"
+		"sin(x)\n"
+		"cos(x)\n"
+		"tan(x)\n"
+		"ctg(x)\n"
+		"asin(x)\n"
+		"acos(x)\n"
+		"atan(x)\n";
 }
 
 int main() {

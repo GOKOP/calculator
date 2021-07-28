@@ -40,23 +40,21 @@ void Serializer::visit(BinOpNode& node) {
 
 void Serializer::visit(UnOpNode& node) {
 	switch(node.type) {
-	case UnOpNode::Plus:
-		node.arg->accept(*this);
-		break;
-	case UnOpNode::Minus:
-		result += '-';
-		node.arg->accept(*this);
-		break;
-	case UnOpNode::Sqrt:
-		result += "sqrt(";
-		node.arg->accept(*this);
-		result += ")";
-		break;
-	case UnOpNode::Cbrt:
-		result += "cbrt(";
-		node.arg->accept(*this);
-		result += ")";
+		case UnOpNode::Plus: break;
+		case UnOpNode::Minus: result += '-'; break;
+		case UnOpNode::Sqrt: result += "sqrt("; break;
+		case UnOpNode::Cbrt: result += "cbrt("; break;
+		case UnOpNode::Sin: result += "sin("; break;
+		case UnOpNode::Cos: result += "cos("; break;
+		case UnOpNode::Tan: result += "tan("; break;
+		case UnOpNode::Ctg: result += "ctg("; break;
+		case UnOpNode::Asin: result += "asin("; break;
+		case UnOpNode::Acos: result += "acos("; break;
+		case UnOpNode::Atan: result += "atan("; break;
 	}
+
+	node.arg->accept(*this);
+	if(node.type != UnOpNode::Plus && node.type != UnOpNode::Minus) result += ")";
 }
 
 std::string Serializer::serialize(std::unique_ptr<ASTNode>& tree) {

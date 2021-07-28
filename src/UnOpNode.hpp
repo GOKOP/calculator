@@ -10,7 +10,14 @@ public:
 		Plus,
 		Minus,
 		Sqrt,
-		Cbrt
+		Cbrt,
+		Sin,
+		Cos,
+		Tan,
+		Ctg,
+		Asin,
+		Acos,
+		Atan
 	};
 
 	UnOpType type;
