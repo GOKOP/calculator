@@ -4,6 +4,7 @@
 
 #include "Parser.hpp"
 #include "Evaluator.hpp"
+#include "Serializer.hpp"
 
 int main() {
 	std::string input;
@@ -18,9 +19,13 @@ int main() {
 		auto maybe_tree = parser.parse();
 		if(std::holds_alternative<std::pair<std::unique_ptr<ASTNode>, std::string>>(maybe_tree)) {
 			auto res = std::move(std::get<std::pair<std::unique_ptr<ASTNode>, std::string>>(maybe_tree));
-			Evaluator ev;
+
 			if(!res.second.empty()) std::cout<<res.second;
-			std::cout<<ev.evaluate(res.first)<<std::endl;
+
+			Evaluator ev;
+			Serializer se;
+
+			std::cout<<se.serialize(res.first)<<" = "<<ev.evaluate(res.first)<<std::endl;
 		} else {
 			std::cout<<std::get<std::string>(maybe_tree)<<std::endl;
 		}
