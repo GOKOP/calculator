@@ -6,8 +6,12 @@
 #include "ASTNode.hpp"
 #include "NodeVisitor.hpp"
 
+#include <string>
+#include <variant>
+
 class Evaluator: public NodeVisitor {
 	double result;
+	std::string errors;
 public:
 	Evaluator();
 
@@ -15,5 +19,5 @@ public:
 	virtual void visit(BinOpNode& node) override;
 	virtual void visit(UnOpNode& node) override;
 	
-	double evaluate(std::unique_ptr<ASTNode>& tree);
+	std::variant<double, std::string> evaluate(std::unique_ptr<ASTNode>& tree);
 };
