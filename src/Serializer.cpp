@@ -1,7 +1,6 @@
 #include "Serializer.hpp"
 
 #include <vector>
-#include <ranges>
 
 // helper functions
 
@@ -51,16 +50,16 @@ std::string reduce_brackets(std::string text) {
 
 		// starting from the last one allows modifying the string
 		// without affecting positions of brackes that are left to check
-		for(auto cur_pos : std::ranges::views::reverse(positions)) {
-			auto first_match = match_bracket(new_text, cur_pos);
-			auto sec_match = match_bracket(new_text, cur_pos+1);
+		for(auto cur_pos = positions.end()-1; cur_pos>=positions.begin(); --cur_pos) {
+			auto first_match = match_bracket(new_text, *cur_pos);
+			auto sec_match = match_bracket(new_text, *cur_pos+1);
 
 			if(first_match != std::string::npos && 
 			   sec_match != std::string::npos &&
 			   first_match == sec_match + 1) 
 			{
 				new_text.erase(first_match, 1);
-				new_text.erase(cur_pos, 1);
+				new_text.erase(*cur_pos, 1);
 				altered = true;
 			}
 		}
