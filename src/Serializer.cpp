@@ -1,5 +1,77 @@
 #include "Serializer.hpp"
 
+#include <vector>
+#include <ranges>
+
+// helper functions
+
+std::size_t match_bracket(const std::string& text, std::size_t pos) {
+	if(pos >= text.size()) return std::string::npos;
+	if(text[pos] != '(') return std::string::npos;
+
+	auto brackets_open = 1;
+	std::size_t i;
+	for(i=pos+1; i<text.size(); ++i) {
+		if(text[i] == '(') ++brackets_open;
+		else if(text[i] == ')') --brackets_open;
+		if(brackets_open == 0) break;
+	}
+
+	if(i > text.size()) return std::string::npos;
+	if(text[i] != ')') return std::string::npos;
+	return i;
+}
+
+std::string reduce_brackets(std::string text) {
+	auto new_text = text;
+
+	// see if the bracket at the beginning matches a bracket at the end
+	if(text.front() == '(') {
+		auto match = match_bracket(text, 0);
+
+		if(match == text.size() - 1) {
+			new_text.pop_back();
+			new_text.erase(new_text.begin());
+		}
+	}
+	
+	// replace all matching double brackets with single brackets, rinse and repeat
+	bool altered;
+	do {
+		altered = false;
+
+		std::vector<std::size_t> positions;
+		auto pos = new_text.find("((");
+		while(pos != std::string::npos) {
+			positions.push_back(pos);
+			pos = new_text.find("((", pos+1);
+		}
+
+		if(positions.empty()) return new_text; // nothing more to do
+
+		// starting from the last one allows modifying the string
+		// without affecting positions of brackes that are left to check
+		for(auto cur_pos : std::ranges::views::reverse(positions)) {
+			auto first_match = match_bracket(new_text, cur_pos);
+			auto sec_match = match_bracket(new_text, cur_pos+1);
+
+			if(first_match != std::string::npos && 
+			   sec_match != std::string::npos &&
+			   first_match == sec_match + 1) 
+			{
+				new_text.erase(first_match, 1);
+				new_text.erase(cur_pos, 1);
+				altered = true;
+			}
+		}
+	} while(altered);
+
+
+	return new_text;
+}
+
+// end of helper functions
+
 Serializer::Serializer(): result("") {}
 
 void Serializer::visit(NumberNode& node) {
@@ -18,11 +90,7 @@ void Serializer::visit(BinOpNode& node) {
 		return;
 	}
 
-	auto brackets = true;
-	if(result.empty() || result.back() == '(' ||
-	   (result.back() == ' ' && result.at(result.size()-2) == ',')) brackets = false;
-
-	if(brackets) result += "(";
+	result += "(";
 	node.left->accept(*this);
 
 	switch(node.type) {
@@ -35,7 +103,7 @@ void Serializer::visit(BinOpNode& node) {
 	}
 
 	node.right->accept(*this);
-	if(brackets) result += ")";
+	result += ")";
 }
 
 void Serializer::visit(UnOpNode& node) {
@@ -59,5 +127,5 @@ void Serializer::visit(UnOpNode& node) {
 
 std::string Serializer::serialize(std::unique_ptr<ASTNode>& tree) {
 	tree->accept(*this);
-	return result;
+	return reduce_brackets(result);
 }
