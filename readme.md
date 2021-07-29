@@ -38,3 +38,5 @@ Valid operations are: (where x and y are numbers, named functions or expressions
 - `asin(x)` – arcsine
 - `acos(x)` – arccosine
 - `atan(x)` – arctangent
+- `ln(x)` - natural logarithm
+- 'log(x, y)` - logarithm of base y
