@@ -25,7 +25,9 @@ void print_help() {
 		"ctg(x)\t\tcotangent\n"
 		"asin(x)\t\tarcsine\n"
 		"acos(x)\t\tarccosine\n"
-		"atan(x)\t\tarctangent\n";
+		"atan(x)\t\tarctangent\n"
+		"ln(x)\t\tnatural logarithm\n"
+		"log(x, y)\t\tlogarithm of base y\n";
 }
 
 int main() {

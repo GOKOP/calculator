@@ -80,8 +80,13 @@ void Serializer::visit(NumberNode& node) {
 }
 
 void Serializer::visit(BinOpNode& node) {
-	if(node.type == BinOpNode::Root) {
-		result += "root(";
+	if(node.type == BinOpNode::Root || node.type == BinOpNode::Log) {
+
+		switch(node.type) {
+			case BinOpNode::Root: result += "root("; break;
+			case BinOpNode::Log: result += "log("; break;
+			default: break;
+		}
 		node.left->accept(*this);
 		result += ", ";
 		node.right->accept(*this);
@@ -118,6 +123,7 @@ void Serializer::visit(UnOpNode& node) {
 		case UnOpNode::Asin: result += "asin("; break;
 		case UnOpNode::Acos: result += "acos("; break;
 		case UnOpNode::Atan: result += "atan("; break;
+		case UnOpNode::Ln: result += "ln("; break;
 	}
 
 	node.arg->accept(*this);

@@ -30,6 +30,10 @@ void Evaluator::visit(BinOpNode& node) {
 			else if(left < 0) result = -pow(-left, 1/right);
 			else result = pow(left, 1/right);
 			break;
+		case BinOpNode::Log:
+			if(right == 10) result = log10(left);
+			else result = log(left) / log(right);
+			break;
 	}
 }
 
@@ -55,6 +59,7 @@ void Evaluator::visit(UnOpNode& node) {
 			if(arg < -1 || arg > 1) errors += "Error: arccosine out of <-1,1> range\n";
 			result = asin(arg); break;
 		case UnOpNode::Atan: result = atan(arg); break;
+		case UnOpNode::Ln: result = log(arg); break;
 	}
 }
 

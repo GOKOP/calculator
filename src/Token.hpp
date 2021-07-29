@@ -17,6 +17,8 @@ struct Token {
 		Acos,
 		Asin,
 		Atan,
+		Ln,
+		Log,
 		Comma,
 		Lparen,
 		Rparen,

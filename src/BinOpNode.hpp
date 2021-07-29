@@ -11,7 +11,8 @@ public:
 		Mul,
 		Div,
 		Pow,
-		Root
+		Root,
+		Log
 	};
 
 	BinOpType type;

@@ -17,7 +17,8 @@ public:
 		Ctg,
 		Asin,
 		Acos,
-		Atan
+		Atan,
+		Ln
 	};
 
 	UnOpType type;
