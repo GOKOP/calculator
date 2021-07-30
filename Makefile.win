@@ -14,5 +14,5 @@ calc: $(OBJ)
 -include $(DEPS)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
-	@if not exist "$(@D)" then mkdir $(@D)
+	@if not exist "$(@D)" mkdir $(@D)
 	$(CC) -MMD -MP -c -o $@ $< $(CFLAGS)
