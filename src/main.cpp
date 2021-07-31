@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include <string>
 #include <memory>
 
@@ -61,7 +62,7 @@ int main() {
 			auto maybe_result = ev.evaluate(res.first);
 
 			if(std::holds_alternative<double>(maybe_result)) {
-				std::cout<<equation<<" = "<<std::get<double>(maybe_result)<<std::endl;
+				std::cout<<std::setprecision(15)<<equation<<" = "<<std::get<double>(maybe_result)<<std::endl;
 			} else {
 				std::cout<<equation<<std::endl<<std::get<std::string>(maybe_result);
 			}
