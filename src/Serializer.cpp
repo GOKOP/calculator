@@ -130,6 +130,13 @@ void Serializer::visit(UnOpNode& node) {
 	if(node.type != UnOpNode::Plus && node.type != UnOpNode::Minus) result += ")";
 }
 
+void Serializer::visit(ConstantNode& node) {
+	switch(node.type) {
+		case ConstantNode::Pi: result += "pi"; break;
+		case ConstantNode::E: result += "e"; break;
+	}
+}
+
 std::string Serializer::serialize(std::unique_ptr<ASTNode>& tree) {
 	tree->accept(*this);
 	return reduce_brackets(result);

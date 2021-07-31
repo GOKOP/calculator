@@ -2,6 +2,7 @@
 #include "BinOpNode.hpp"
 #include "NumberNode.hpp"
 #include "UnOpNode.hpp"
+#include "ConstantNode.hpp"
 
 #include <algorithm>
 
@@ -22,8 +23,10 @@ std::string show_token_type(Token::Type type) {
 		case Token::Asin:    return "'asin'";
 		case Token::Acos:    return "'acos'";
 		case Token::Atan:    return "'atan'";
-		case Token::Ln:    return "'ln'";
-		case Token::Log:    return "'log'";
+		case Token::Ln:      return "'ln'";
+		case Token::Log:     return "'log'";
+		case Token::Pi:      return "'pi'";
+		case Token::E:       return "'e'";
 		case Token::Comma:   return "','";
 		case Token::Lparen:  return "'('";
 		case Token::Rparen:  return "')'";
@@ -120,10 +123,28 @@ std::optional<std::unique_ptr<ASTNode>> Parser::function() {
 	return node;
 }
 
+std::optional<std::unique_ptr<ASTNode>> Parser::constant() {
+	// constant: Pi|E
+	
+	switch(current_token.type) {
+	case Token::Pi: 
+		eat(Token::Pi);
+		return std::make_unique<ConstantNode>(ConstantNode::Pi);
+	case Token::E: 
+		eat(Token::E);
+		return std::make_unique<ConstantNode>(ConstantNode::E);
+	default: 
+		return {};
+	}
+}
+
 std::unique_ptr<ASTNode> Parser::factor() {
-	// factor: (Plus|Minus) factor | Number | Lparen add_expr Rparen | function
+	// factor: (Plus|Minus) factor | Number | Lparen add_expr Rparen | function | constant
 
 	auto maybe_node = function();
+	if(maybe_node.has_value()) return std::move(maybe_node.value());
+
+	maybe_node = constant();
 	if(maybe_node.has_value()) return std::move(maybe_node.value());
 
 	std::unique_ptr<ASTNode> node;
@@ -213,9 +234,10 @@ std::variant<std::pair<std::unique_ptr<ASTNode>, std::string>, std::string> Pars
 	/* add_expr: mul_expr(Plus|Minus mul_expr)*
 	 * mul_expr: pow_expr(Mul|Div pow_expr)*
 	 * pow_expr: factor(Pow factor)*
-	 * factor: (Plus|Minus) factor | Number | Lparen add_expr Rparen | function
+	 * factor: (Plus|Minus) factor | Number | Lparen add_expr Rparen | function | constant
 	 * function: (Sqrt|Cbrt|Sin|Cos|Tan|Ctg|Asin|Acos|Atan|Ln Lparen add_expr Rparen)|
 	 *           (Root|Log Lparen add_expr Comma add_expr)
+	 * constant: Pi|E
 	 */
 
 	auto tree = add_expr();

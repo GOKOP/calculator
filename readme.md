@@ -51,7 +51,7 @@ make
 
 ## Usage
 
-Valid operations are: (where x and y are numbers, named functions or expressions in parentheses)
+Valid operations are: (where x and y are numbers, constants, named functions or expressions in parentheses)
 - `+x` – unary plus
 - `-x` – unary minus
 - `x + y` – addition
@@ -71,3 +71,7 @@ Valid operations are: (where x and y are numbers, named functions or expressions
 - `atan(x)` – arctangent
 - `ln(x)` - natural logarithm
 - `log(x, y)` - logarithm of base y
+
+Valid constants are:
+- `pi` – pi
+- `e` – e

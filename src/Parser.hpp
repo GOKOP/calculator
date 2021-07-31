@@ -17,6 +17,7 @@ class Parser {
 	void eat(Token::Type type);
 	void eat(std::vector<Token::Type> types);
 	std::optional<std::unique_ptr<ASTNode>> function();
+	std::optional<std::unique_ptr<ASTNode>> constant();
 	std::unique_ptr<ASTNode> factor();
 	std::unique_ptr<ASTNode> pow_expr();
 	std::unique_ptr<ASTNode> mul_expr();

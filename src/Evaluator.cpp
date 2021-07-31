@@ -69,6 +69,13 @@ void Evaluator::visit(UnOpNode& node) {
 	}
 }
 
+void Evaluator::visit(ConstantNode& node) {
+	switch(node.type) {
+		case ConstantNode::Pi: result = M_PI; break;
+		case ConstantNode::E: result = M_E; break;
+	}
+}
+
 std::variant<double, std::string> Evaluator::evaluate(std::unique_ptr<ASTNode>& tree) {
 	tree->accept(*this);
 	if(!errors.empty()) return errors;

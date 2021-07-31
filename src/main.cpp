@@ -8,7 +8,7 @@
 
 void print_help() {
 	std::cout<<"Valid operations:\n"
-		"(x and y are numbers, named functions or expressions in parentheses)\n"
+		"(x and y are numbers, constants, named functions or expressions in parentheses)\n"
 		"+x\t\tunary plus\n"
 		"-y\t\tunary minus\n"
 		"x + y\t\taddition\n"
@@ -27,7 +27,10 @@ void print_help() {
 		"acos(x)\t\tarccosine\n"
 		"atan(x)\t\tarctangent\n"
 		"ln(x)\t\tnatural logarithm\n"
-		"log(x, y)\t\tlogarithm of base y\n";
+		"log(x, y)\tlogarithm of base y\n\n"
+		"Valid constants are:\n"
+		"pi\t\tpi\n"
+		"e\t\te\n";
 }
 
 int main() {

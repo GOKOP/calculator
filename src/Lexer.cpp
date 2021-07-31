@@ -62,7 +62,9 @@ Token Lexer::get_next_token() {
 			if(word == "atan") return { Token::Atan, 0, pos };
 			if(word == "ln") return { Token::Ln, 0, pos };
 			if(word == "log") return { Token::Log, 0, pos };
-			errors += "Invalid function '" + word + "' ignored at position ";
+			if(word == "pi") return { Token::Pi, 0, pos };
+			if(word == "e") return { Token::E, 0, pos };
+			errors += "Unknown name '" + word + "' ignored at position ";
 			errors += std::to_string(pos) + "\n";
 			continue;
 		}

@@ -19,6 +19,8 @@ struct Token {
 		Atan,
 		Ln,
 		Log,
+		Pi,
+		E,
 		Comma,
 		Lparen,
 		Rparen,
