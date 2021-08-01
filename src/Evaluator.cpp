@@ -79,6 +79,6 @@ void Evaluator::visit(ConstantNode& node) {
 std::variant<double, std::string> Evaluator::evaluate(std::unique_ptr<ASTNode>& tree) {
 	tree->accept(*this);
 	if(!errors.empty()) return errors;
-	if(result < 1.0e-15) result = 0;
+	if(result < 1.0e-15 && result > -1.0e-15) result = 0;
 	return result;
 }
