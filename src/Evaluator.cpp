@@ -26,7 +26,7 @@ void Evaluator::visit(BinOpNode& node) {
 			result = left/right; break;
 		case BinOpNode::Pow: result = pow(left, right); break;
 		case BinOpNode::Root: 
-			if(fmod(right, 2) == 0 && left < 0) errors += "Error: Even root of a negative number\n";
+			if(fmod(right, 2) == 0 && left < 0) errors += "Error: even root of a negative number\n";
 			else if(left < 0) result = -pow(-left, 1/right);
 			else result = pow(left, 1/right);
 			break;
@@ -48,7 +48,7 @@ void Evaluator::visit(UnOpNode& node) {
 		case UnOpNode::Plus: result = arg; break;
 		case UnOpNode::Minus: result = -arg; break;
 		case UnOpNode::Sqrt: 
-			if(arg < 0) errors += "Error: Square root of negative number\n";
+			if(arg < 0) errors += "Error: square root of negative number\n";
 			result = sqrt(arg); break;
 		case UnOpNode::Cbrt: result = cbrt(arg); break;
 		case UnOpNode::Sin: result = sin(arg); break;
