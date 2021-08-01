@@ -60,7 +60,7 @@ void Evaluator::visit(UnOpNode& node) {
 			result = asin(arg); break;
 		case UnOpNode::Acos:
 			if(arg < -1 || arg > 1) errors += "Error: arccosine out of <-1,1> range\n";
-			result = asin(arg); break;
+			result = acos(arg); break;
 		case UnOpNode::Atan: result = atan(arg); break;
 		case UnOpNode::Ln: 
 			if(arg < 0) errors += "Error: logarithm with negative argument\n";
