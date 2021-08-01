@@ -1,4 +1,4 @@
-#include <catch2/catch.hpp>
+#include "catch.hpp"
 #include "Lexer.hpp"
 
 TEST_CASE("Lexer generates correct tokens for basic operations", "[lexer]") {
