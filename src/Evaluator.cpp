@@ -8,6 +8,8 @@ Evaluator::Evaluator():
 
 void Evaluator::visit(NumberNode& node) {
 	result = node.value;
+
+	if(result < EPSILON && result > -EPSILON) result = 0;
 }
 
 void Evaluator::visit(BinOpNode& node) {
@@ -38,6 +40,8 @@ void Evaluator::visit(BinOpNode& node) {
 			else result = log(left) / log(right);
 			break;
 	}
+
+	if(result < EPSILON && result > -EPSILON) result = 0;
 }
 
 void Evaluator::visit(UnOpNode& node) {
@@ -67,6 +71,8 @@ void Evaluator::visit(UnOpNode& node) {
 			else result = log(arg); 
 			break;
 	}
+
+	if(result < EPSILON && result > -EPSILON) result = 0;
 }
 
 void Evaluator::visit(ConstantNode& node) {
@@ -74,11 +80,12 @@ void Evaluator::visit(ConstantNode& node) {
 		case ConstantNode::Pi: result = M_PI; break;
 		case ConstantNode::E: result = M_E; break;
 	}
+
+	if(result < EPSILON && result > -EPSILON) result = 0;
 }
 
 std::variant<double, std::string> Evaluator::evaluate(std::unique_ptr<ASTNode>& tree) {
 	tree->accept(*this);
 	if(!errors.empty()) return errors;
-	if(result < 1.0e-15 && result > -1.0e-15) result = 0;
 	return result;
 }

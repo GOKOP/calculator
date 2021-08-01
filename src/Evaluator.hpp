@@ -9,6 +9,8 @@
 #include <string>
 #include <variant>
 
+#define EPSILON 1.0e-15
+
 class Evaluator: public NodeVisitor {
 	double result;
 	std::string errors;
