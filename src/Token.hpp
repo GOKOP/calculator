@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstddef>
+
 struct Token {
 	enum Type {
 		Plus,
@@ -32,3 +34,5 @@ struct Token {
 	double value; // only for numbers
 	std::size_t pos; // where in the input is the first character of this token
 };
+
+bool operator==(const Token& lhs, const Token& rhs);
