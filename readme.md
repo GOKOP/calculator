@@ -18,6 +18,8 @@ Run:
 cmake -S. -Bbuild
 cd build
 make
+# or if you don't want to compile tests
+make calc
 ```
 
 ### Windows
@@ -35,7 +37,7 @@ cmake -S. -Bbuild
 cmake -S. -Bbuild -G "Visual Studio 16 2019"
 ```
 
-After that find the .sln file, open it and compile as you would normally do in Visual Studio.
+After that find the .sln file, open it and compile the "calc" target as you would normally do in Visual Studio.
 
 #### GNU Make
 
