@@ -1,3 +1,4 @@
+#define _USE_MATH_DEFINES // for MSVC
 #include "catch.hpp"
 #include "Evaluator.hpp"
 #include <cmath>
