@@ -18,7 +18,8 @@ public:
 		Asin,
 		Acos,
 		Atan,
-		Ln
+		Ln,
+		Deg
 	};
 
 	UnOpType type;

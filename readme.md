@@ -41,7 +41,7 @@ After that find the .sln file, open it and compile the "calc" target as you woul
 
 #### GNU Make
 
-You can also use a Windows version of GNU Make which you can get[here](http://gnuwin32.sourceforge.net/packages/make.htm)) 
+You can also use a Windows version of GNU Make which you can get [here](http://gnuwin32.sourceforge.net/packages/make.htm)) 
 You can get an up to date version of GCC (and Clang) [here](https://winlibs.com/).
 Make sure that relevant binaries are in your `Path` and run:
 
@@ -68,6 +68,7 @@ Valid operations are: (where x and y are numbers, constants, named functions or 
 - `cos(x)` – cosine
 - `tan(x)` – tangent
 - `ctg(x)` – cotangent
+- `deg(x)` – convert degrees to radians
 - `asin(x)` – arcsine
 - `acos(x)` – arccosine
 - `atan(x)` – arctangent

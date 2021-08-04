@@ -64,6 +64,7 @@ Token Lexer::get_next_token() {
 			if(word == "log") return { Token::Log, 0, pos };
 			if(word == "pi") return { Token::Pi, 0, pos };
 			if(word == "e") return { Token::E, 0, pos };
+			if(word == "deg") return { Token::Deg, 0, pos };
 			errors += "Unknown name '" + word + "' ignored at position ";
 			errors += std::to_string(pos) + "\n";
 			continue;

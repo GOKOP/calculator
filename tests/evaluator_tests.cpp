@@ -198,3 +198,14 @@ TEST_CASE("Evaluator returns errors", "[evaluator]") {
 	auto maybe_res = ev.evaluate(add);
 	REQUIRE(std::holds_alternative<std::string>(maybe_res));
 }
+
+TEST_CASE("Evalutor correctly calculates the deg function", "[evaluator]") {
+	std::unique_ptr<ASTNode> pi = std::make_unique<NumberNode>(180);
+	std::unique_ptr<ASTNode> deg = std::make_unique<UnOpNode>(UnOpNode::Deg, std::move(pi));
+
+	Evaluator ev;
+	auto maybe_res = ev.evaluate(deg);
+	REQUIRE(std::holds_alternative<double>(maybe_res));
+	auto res = std::get<double>(maybe_res);
+	REQUIRE(std::abs(res - M_PI) < EPSILON);
+}

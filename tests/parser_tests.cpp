@@ -346,3 +346,19 @@ TEST_CASE("Parser returns syntax errors", "[parser]") {
 	errs = std::get<std::string>(maybe_tree);
 	REQUIRE(!errs.empty());
 }
+
+TEST_CASE("Parser understands the deg function", "[parser]") {
+	auto parser = Parser("deg(90)");
+	auto maybe_tree = parser.parse();
+
+	REQUIRE(std::holds_alternative<std::pair<std::unique_ptr<ASTNode>, std::string>>(maybe_tree));
+	auto tree = std::move(std::get<std::pair<std::unique_ptr<ASTNode>, std::string>>(maybe_tree).first);
+	
+	std::unique_ptr<UnOpNode> deg;
+	REQUIRE_NOTHROW(deg = std::make_unique<UnOpNode>(std::move(dynamic_cast<UnOpNode&>(*tree))));
+	REQUIRE(deg->type == UnOpNode::Deg);
+
+	std::unique_ptr<NumberNode> arg;
+	REQUIRE_NOTHROW(arg = std::make_unique<NumberNode>(dynamic_cast<NumberNode&>(*deg->arg)));
+	REQUIRE(arg->value == 90);
+}

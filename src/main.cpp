@@ -24,6 +24,7 @@ void print_help() {
 		"cos(x)\t\tcosine\n"
 		"tan(x)\t\ttangent\n"
 		"ctg(x)\t\tcotangent\n"
+		"deg(x)\t\tconvert degrees to radians\n"
 		"asin(x)\t\tarcsine\n"
 		"acos(x)\t\tarccosine\n"
 		"atan(x)\t\tarctangent\n"

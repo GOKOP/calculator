@@ -71,6 +71,7 @@ void Evaluator::visit(UnOpNode& node) {
 			if(arg < 0) errors += "Error: logarithm with negative argument\n";
 			else result = log(arg); 
 			break;
+		case UnOpNode::Deg: result = arg * M_PI / 180; break;
 	}
 
 	if(result < EPSILON && result > -EPSILON) result = 0;

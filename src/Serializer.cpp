@@ -124,6 +124,7 @@ void Serializer::visit(UnOpNode& node) {
 		case UnOpNode::Acos: result += "acos("; break;
 		case UnOpNode::Atan: result += "atan("; break;
 		case UnOpNode::Ln: result += "ln("; break;
+		case UnOpNode::Deg: result += "deg("; break;
 	}
 
 	node.arg->accept(*this);

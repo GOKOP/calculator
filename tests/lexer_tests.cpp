@@ -142,3 +142,12 @@ TEST_CASE("Lexer reports and ignores errors", "[lexer]") {
 			"Invalid character '&' ignored at position 8\n"
 			"Invalid character '#' ignored at position 11\n");
 }
+
+TEST_CASE("Lexer returns correct token for deg function", "[lexer]") {
+	auto lexer = Lexer("deg(10)");
+	REQUIRE(lexer.get_next_token() == Token {Token::Deg, 0, 1});
+	REQUIRE(lexer.get_next_token() == Token {Token::Lparen, 0, 4});
+	REQUIRE(lexer.get_next_token() == Token {Token::Number, 10, 5});
+	REQUIRE(lexer.get_next_token() == Token {Token::Rparen, 0, 7});
+	REQUIRE(lexer.get_errors().empty());
+}

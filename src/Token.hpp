@@ -23,6 +23,7 @@ struct Token {
 		Log,
 		Pi,
 		E,
+		Deg,
 		Comma,
 		Lparen,
 		Rparen,

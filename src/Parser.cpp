@@ -27,6 +27,7 @@ std::string show_token_type(Token::Type type) {
 		case Token::Log:     return "'log'";
 		case Token::Pi:      return "'pi'";
 		case Token::E:       return "'e'";
+		case Token::Deg:     return "'deg'";
 		case Token::Comma:   return "','";
 		case Token::Lparen:  return "'('";
 		case Token::Rparen:  return "')'";
@@ -70,7 +71,7 @@ void Parser::eat(std::vector<Token::Type> types) {
 // so that it can work as a check for whether or not there's a function
 // otherwise factor() would have an ugly long case fallthrough
 std::optional<std::unique_ptr<ASTNode>> Parser::function() {
-	// function: (Sqrt|Cbrt|Sin|Cos|Tan|Ctg|Asin|Acos|Atan|Ln Lparen add_expr Rparen)|
+	// function: (Sqrt|Cbrt|Sin|Cos|Tan|Ctg|Asin|Acos|Atan|Ln|Deg Lparen add_expr Rparen)|
 	//           (Root|Log Lparen add_expr Comma add_expr)
 
 	std::unique_ptr<ASTNode> node;
@@ -79,7 +80,7 @@ std::optional<std::unique_ptr<ASTNode>> Parser::function() {
 	auto func_tokens = {Token::Sqrt, Token::Cbrt, Token::Root, 
 	                    Token::Sin, Token::Cos, Token::Tan, Token::Ctg,
 	                    Token::Asin, Token::Acos, Token::Atan,
-	                    Token::Ln, Token::Log};
+	                    Token::Ln, Token::Log, Token::Deg};
 	if(std::find(func_tokens.begin(), func_tokens.end(), token_type) == func_tokens.end()) return {};
 	eat(func_tokens);
 	eat(Token::Lparen);
@@ -115,6 +116,8 @@ std::optional<std::unique_ptr<ASTNode>> Parser::function() {
 		eat(Token::Comma);
 		node = std::make_unique<BinOpNode>(BinOpNode::Log, std::move(node), add_expr());
 		break;
+	case Token::Deg:
+		node = std::make_unique<UnOpNode>(UnOpNode::Deg, add_expr()); break;
 	default: break;
 	}
 
@@ -235,7 +238,7 @@ std::variant<std::pair<std::unique_ptr<ASTNode>, std::string>, std::string> Pars
 	 * mul_expr: pow_expr(Mul|Div pow_expr)*
 	 * pow_expr: factor(Pow factor)*
 	 * factor: (Plus|Minus) factor | Number | Lparen add_expr Rparen | function | constant
-	 * function: (Sqrt|Cbrt|Sin|Cos|Tan|Ctg|Asin|Acos|Atan|Ln Lparen add_expr Rparen)|
+	 * function: (Sqrt|Cbrt|Sin|Cos|Tan|Ctg|Asin|Acos|Atan|Ln|Deg Lparen add_expr Rparen)|
 	 *           (Root|Log Lparen add_expr Comma add_expr)
 	 * constant: Pi|E
 	 */
