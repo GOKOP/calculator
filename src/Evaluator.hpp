@@ -17,10 +17,10 @@ class Evaluator: public NodeVisitor {
 public:
 	Evaluator();
 
-	virtual void visit(NumberNode& node) override;
-	virtual void visit(BinOpNode& node) override;
-	virtual void visit(UnOpNode& node) override;
-	virtual void visit(ConstantNode& node) override;
+	virtual void visit(const NumberNode& node) override;
+	virtual void visit(const BinOpNode& node) override;
+	virtual void visit(const UnOpNode& node) override;
+	virtual void visit(const ConstantNode& node) override;
 	
 	std::variant<double, std::string> evaluate(std::unique_ptr<ASTNode>& tree);
 };

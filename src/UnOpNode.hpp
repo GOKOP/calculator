@@ -26,5 +26,5 @@ public:
 	std::unique_ptr<ASTNode> arg;
 
 	UnOpNode(UnOpType type, std::unique_ptr<ASTNode> arg);
-	virtual void accept(NodeVisitor& vis) override;
+	virtual void accept(NodeVisitor& vis) const override;
 };

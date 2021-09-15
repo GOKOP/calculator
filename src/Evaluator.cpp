@@ -7,13 +7,13 @@ Evaluator::Evaluator():
 	errors("")
 {}
 
-void Evaluator::visit(NumberNode& node) {
+void Evaluator::visit(const NumberNode& node) {
 	result = node.value;
 
 	if(result < EPSILON && result > -EPSILON) result = 0;
 }
 
-void Evaluator::visit(BinOpNode& node) {
+void Evaluator::visit(const BinOpNode& node) {
 	node.left->accept(*this);
 	auto left = result;
 
@@ -45,7 +45,7 @@ void Evaluator::visit(BinOpNode& node) {
 	if(result < EPSILON && result > -EPSILON) result = 0;
 }
 
-void Evaluator::visit(UnOpNode& node) {
+void Evaluator::visit(const UnOpNode& node) {
 	node.arg->accept(*this);
 	auto arg = result;
 
@@ -77,7 +77,7 @@ void Evaluator::visit(UnOpNode& node) {
 	if(result < EPSILON && result > -EPSILON) result = 0;
 }
 
-void Evaluator::visit(ConstantNode& node) {
+void Evaluator::visit(const ConstantNode& node) {
 	switch(node.type) {
 		case ConstantNode::Pi: result = M_PI; break;
 		case ConstantNode::E: result = M_E; break;

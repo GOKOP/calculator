@@ -3,6 +3,6 @@
 
 NumberNode::NumberNode(double value): value(value) {}
 
-void NumberNode::accept(NodeVisitor& visitor) {
+void NumberNode::accept(NodeVisitor& visitor) const {
 	visitor.visit(*this);
 }

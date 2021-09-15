@@ -5,6 +5,6 @@ UnOpNode::UnOpNode(UnOpType type, std::unique_ptr<ASTNode> arg):
 	arg(std::move(arg))
 {}
 
-void UnOpNode::accept(NodeVisitor& vis) {
+void UnOpNode::accept(NodeVisitor& vis) const {
 	vis.visit(*this);
 }

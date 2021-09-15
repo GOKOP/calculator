@@ -12,5 +12,5 @@ public:
 	ConstantType type;
 
 	ConstantNode(ConstantType type);
-	virtual void accept(NodeVisitor& visitor) override;
+	virtual void accept(NodeVisitor& visitor) const override;
 };

@@ -15,7 +15,7 @@ class Parser {
 	std::string errors;
 
 	void eat(Token::Type type);
-	void eat(std::vector<Token::Type> types);
+	void eat(const std::vector<Token::Type>& types);
 	std::optional<std::unique_ptr<ASTNode>> function();
 	std::optional<std::unique_ptr<ASTNode>> constant();
 	std::unique_ptr<ASTNode> factor();
@@ -24,7 +24,7 @@ class Parser {
 	std::unique_ptr<ASTNode> add_expr();
 
 public:
-	Parser(std::string input);
+	Parser(const std::string& input);
 
 	// ok this looks ugly but it's all because lexer errors are basically ignored
 	// parse() returns a variant with either a correctly formed AST *and* lexer errors,

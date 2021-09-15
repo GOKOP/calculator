@@ -7,6 +7,6 @@ BinOpNode::BinOpNode(BinOpType type, std::unique_ptr<ASTNode> left, std::unique_
 	right(std::move(right))
 {}
 
-void BinOpNode::accept(NodeVisitor& visitor) {
+void BinOpNode::accept(NodeVisitor& visitor) const {
 	visitor.visit(*this);
 }

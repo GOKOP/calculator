@@ -37,7 +37,7 @@ std::string show_token_type(Token::Type type) {
 	return "abomination";
 }
 
-Parser::Parser(std::string input): 
+Parser::Parser(const std::string& input): 
 	lexer(Lexer(input)),
 	errors("")
 {
@@ -54,7 +54,7 @@ void Parser::eat(Token::Type type) {
 	}
 }
 
-void Parser::eat(std::vector<Token::Type> types) {
+void Parser::eat(const std::vector<Token::Type>& types) {
 	if(std::find(types.begin(), types.end(), current_token.type) != types.end()) {
 		current_token = lexer.get_next_token();
 	} else {

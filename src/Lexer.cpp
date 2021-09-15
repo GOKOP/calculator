@@ -1,7 +1,7 @@
 #include "Lexer.hpp"
 #include <cctype>
 
-Lexer::Lexer(std::string input): 
+Lexer::Lexer(const std::string& input): 
 	input(input), 
 	current_pos(0),
 	errors("")
@@ -90,6 +90,6 @@ Token Lexer::get_next_token() {
 	return { Token::Eof, 0, current_pos+1 };
 }
 
-std::string Lexer::get_errors() {
+std::string Lexer::get_errors() const {
 	return errors;
 }

@@ -73,13 +73,13 @@ std::string reduce_brackets(std::string text) {
 
 Serializer::Serializer(): result("") {}
 
-void Serializer::visit(NumberNode& node) {
+void Serializer::visit(const NumberNode& node) {
 	result += std::to_string(node.value);
 	result.erase(result.find_last_not_of("0") + 1);
 	if(result.back() == '.') result.pop_back();
 }
 
-void Serializer::visit(BinOpNode& node) {
+void Serializer::visit(const BinOpNode& node) {
 	if(node.type == BinOpNode::Root || node.type == BinOpNode::Log) {
 
 		switch(node.type) {
@@ -110,7 +110,7 @@ void Serializer::visit(BinOpNode& node) {
 	result += ")";
 }
 
-void Serializer::visit(UnOpNode& node) {
+void Serializer::visit(const UnOpNode& node) {
 	switch(node.type) {
 		case UnOpNode::Plus: break;
 		case UnOpNode::Minus: result += '-'; break;
@@ -131,7 +131,7 @@ void Serializer::visit(UnOpNode& node) {
 	if(node.type != UnOpNode::Plus && node.type != UnOpNode::Minus) result += ")";
 }
 
-void Serializer::visit(ConstantNode& node) {
+void Serializer::visit(const ConstantNode& node) {
 	switch(node.type) {
 		case ConstantNode::Pi: result += "pi"; break;
 		case ConstantNode::E: result += "e"; break;

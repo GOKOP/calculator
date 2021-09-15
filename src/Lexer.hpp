@@ -12,7 +12,7 @@ class Lexer {
 	std::string get_word();
 	void skip_whitespace();
 public:
-	Lexer(std::string input);
+	Lexer(const std::string& input);
 	Token get_next_token();
-	std::string get_errors();
+	std::string get_errors() const;
 };

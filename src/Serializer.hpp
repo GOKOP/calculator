@@ -13,10 +13,10 @@ class Serializer: public NodeVisitor {
 public:
 	Serializer();
 
-	virtual void visit(NumberNode& node) override;
-	virtual void visit(BinOpNode& node) override;
-	virtual void visit(UnOpNode& node) override;
-	virtual void visit(ConstantNode& node) override;
+	virtual void visit(const NumberNode& node) override;
+	virtual void visit(const BinOpNode& node) override;
+	virtual void visit(const UnOpNode& node) override;
+	virtual void visit(const ConstantNode& node) override;
 	
 	std::string serialize(std::unique_ptr<ASTNode>& tree);
 };
