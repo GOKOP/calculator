@@ -26,11 +26,12 @@ make calc
 
 #### Visual Studio
 
-Visual Studio has built-in support for Cmake projects. (you might need to install it)
+Visual Studio has built-in support for Cmake projects (you might need to install it).
+
 In order to build this project using Visual Studio:
 (following instructions from [here](https://docs.microsoft.com/en-us/cpp/build/cmake-projects-in-visual-studio?view=msvc-170))
 
-1. Open the main project folder (with CMakeLists.txt) in Visual Studio
+1. Open the main project folder (containing CMakeLists.txt) in Visual Studio
 2. Wait for Visual Studio to sort Cmake out
 3. Switch the solution explorer to CMake targets view
 4. Build the `calc` target.
@@ -41,7 +42,7 @@ You can also use CMake directly (you can get it from [here](https://cmake.org/do
 and build the project using any build system supported by it.
 Below instructions show how to use it with Make, with GCC as the compiler.
 
-You can get Make [here](http://gnuwin32.sourceforge.net/packages/make.htm)).
+You can get Make [here](http://gnuwin32.sourceforge.net/packages/make.htm).
 You can get an up to date version of GCC (and Clang) [here](https://winlibs.com/).
 Make sure that relevant binaries are in your `Path` and run:
 
