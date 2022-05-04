@@ -8,11 +8,11 @@ One that I can recommend is [qalculate](https://qalculate.github.io/).
 
 ## Building
 
-On any platform you're gonna need Cmake and a C++ compiler with C++17 support.
+On any platform you're gonna need a C++ compiler with C++17 support.
 
 ### Linux and other Unix-like
 
-Run:
+You need Cmake and Make. Run:
 
 ```
 cmake -S. -Bbuild
@@ -24,24 +24,24 @@ make calc
 
 ### Windows
 
-If you don't have Cmake, you can get it from [here](https://cmake.org/download/).
-
 #### Visual Studio
 
-If you have Visual Studio installed, cmake will by default generate a solution for the newest version you have.
-If for some reason it doesn't, specify it with the -G option.
+Visual Studio has built-in support for Cmake projects. (you might need to install it)
+In order to build this project using Visual Studio:
+(following instructions from [here](https://docs.microsoft.com/en-us/cpp/build/cmake-projects-in-visual-studio?view=msvc-170))
 
-```
-cmake -S. -Bbuild
-# or
-cmake -S. -Bbuild -G "Visual Studio 16 2019"
-```
+1. Open the main project folder (with CMakeLists.txt) in Visual Studio
+2. Wait for Visual Studio to sort Cmake out
+3. Switch the solution explorer to CMake targets view
+4. Build the `calc` target.
 
-After that find the .sln file, open it and compile the "calc" target as you would normally do in Visual Studio.
+#### CMake
 
-#### GNU Make
+You can also use CMake directly (you can get it from [here](https://cmake.org/download/))
+and build the project using any build system supported by it.
+Below instructions show how to use it with Make, with GCC as the compiler.
 
-You can also use a Windows version of GNU Make which you can get [here](http://gnuwin32.sourceforge.net/packages/make.htm)) 
+You can get Make [here](http://gnuwin32.sourceforge.net/packages/make.htm)).
 You can get an up to date version of GCC (and Clang) [here](https://winlibs.com/).
 Make sure that relevant binaries are in your `Path` and run:
 
