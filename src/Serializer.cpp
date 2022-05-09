@@ -50,7 +50,7 @@ std::string reduce_brackets(std::string text) {
 
 		// starting from the last one allows modifying the string
 		// without affecting positions of brackes that are left to check
-		for(auto cur_pos = positions.end()-1; cur_pos>=positions.begin(); --cur_pos) {
+		for(auto cur_pos = positions.rbegin(); cur_pos < positions.rend(); ++cur_pos) {
 			auto first_match = match_bracket(new_text, *cur_pos);
 			auto sec_match = match_bracket(new_text, *cur_pos+1);
 
