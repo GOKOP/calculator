@@ -9,10 +9,10 @@ class Lexer {
 	std::string errors;
 	
 	double get_number();
-	std::string get_word();
+	std::string_view get_word();
 	void skip_whitespace();
 public:
-	Lexer(const std::string& input);
+	Lexer(std::string_view input);
 	Token get_next_token();
-	std::string get_errors() const;
+	std::string_view get_errors() const;
 };

@@ -107,7 +107,7 @@ TEST_CASE("Evaluator rounds numbers floating-error-small to zero", "[evaluator]"
 	std::unique_ptr<ASTNode> div = std::make_unique<BinOpNode>(BinOpNode::Div, std::move(one), std::move(sin2));
 
 	maybe_res = ev.evaluate(div);
-	REQUIRE(std::holds_alternative<std::string>(maybe_res));
+	REQUIRE(std::holds_alternative<std::string_view>(maybe_res));
 }
 
 TEST_CASE("Evaluator understands cyclometric functions", "[evaluator]") {
@@ -196,7 +196,7 @@ TEST_CASE("Evaluator returns errors", "[evaluator]") {
 
 	Evaluator ev;
 	auto maybe_res = ev.evaluate(add);
-	REQUIRE(std::holds_alternative<std::string>(maybe_res));
+	REQUIRE(std::holds_alternative<std::string_view>(maybe_res));
 }
 
 TEST_CASE("Evalutor correctly calculates the deg function", "[evaluator]") {

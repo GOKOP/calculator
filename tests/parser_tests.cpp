@@ -9,8 +9,8 @@ TEST_CASE("Parser generates AST with correct order of operations", "[parser]") {
 	auto parser = Parser("1+2^3*4");
 	auto maybe_tree = parser.parse();
 
-	REQUIRE(std::holds_alternative<std::pair<std::unique_ptr<ASTNode>, std::string>>(maybe_tree));
-	auto tree = std::move(std::get<std::pair<std::unique_ptr<ASTNode>, std::string>>(maybe_tree).first);
+	REQUIRE(std::holds_alternative<std::pair<std::unique_ptr<ASTNode>, std::string_view>>(maybe_tree));
+	auto tree = std::move(std::get<std::pair<std::unique_ptr<ASTNode>, std::string_view>>(maybe_tree).first);
 
 	// tree should start with addition operation
 	std::unique_ptr<BinOpNode> binop;
@@ -50,8 +50,8 @@ TEST_CASE("Parser gives parentheses precendence", "[parser]") {
 	auto parser = Parser("(1+2)*3");
 	auto maybe_tree = parser.parse();
 
-	REQUIRE(std::holds_alternative<std::pair<std::unique_ptr<ASTNode>, std::string>>(maybe_tree));
-	auto tree = std::move(std::get<std::pair<std::unique_ptr<ASTNode>, std::string>>(maybe_tree).first);
+	REQUIRE(std::holds_alternative<std::pair<std::unique_ptr<ASTNode>, std::string_view>>(maybe_tree));
+	auto tree = std::move(std::get<std::pair<std::unique_ptr<ASTNode>, std::string_view>>(maybe_tree).first);
 
 	// tree should start with multiplication
 	std::unique_ptr<BinOpNode> binop;
@@ -83,8 +83,8 @@ TEST_CASE("Parser understands unary operations", "[parser]") {
 	auto parser = Parser("+3+(-2)");
 	auto maybe_tree = parser.parse();
 
-	REQUIRE(std::holds_alternative<std::pair<std::unique_ptr<ASTNode>, std::string>>(maybe_tree));
-	auto tree = std::move(std::get<std::pair<std::unique_ptr<ASTNode>, std::string>>(maybe_tree).first);
+	REQUIRE(std::holds_alternative<std::pair<std::unique_ptr<ASTNode>, std::string_view>>(maybe_tree));
+	auto tree = std::move(std::get<std::pair<std::unique_ptr<ASTNode>, std::string_view>>(maybe_tree).first);
 
 	// starting node should be addition
 	std::unique_ptr<BinOpNode> binop;
@@ -114,8 +114,8 @@ TEST_CASE("Parser understands constants", "[parser]") {
 	auto parser = Parser("pi + e");
 	auto maybe_tree = parser.parse();
 
-	REQUIRE(std::holds_alternative<std::pair<std::unique_ptr<ASTNode>, std::string>>(maybe_tree));
-	auto tree = std::move(std::get<std::pair<std::unique_ptr<ASTNode>, std::string>>(maybe_tree).first);
+	REQUIRE(std::holds_alternative<std::pair<std::unique_ptr<ASTNode>, std::string_view>>(maybe_tree));
+	auto tree = std::move(std::get<std::pair<std::unique_ptr<ASTNode>, std::string_view>>(maybe_tree).first);
 
 	std::unique_ptr<BinOpNode> binop;
 	REQUIRE_NOTHROW(binop = std::make_unique<BinOpNode>(std::move(dynamic_cast<BinOpNode&>(*tree))));
@@ -134,8 +134,8 @@ TEST_CASE("Parser understands trigonometric functions", "[parser]") {
 	auto parser = Parser("sin(1) + cos(2) + tan(3) + ctg(4)");
 	auto maybe_tree = parser.parse();
 
-	REQUIRE(std::holds_alternative<std::pair<std::unique_ptr<ASTNode>, std::string>>(maybe_tree));
-	auto tree = std::move(std::get<std::pair<std::unique_ptr<ASTNode>, std::string>>(maybe_tree).first);
+	REQUIRE(std::holds_alternative<std::pair<std::unique_ptr<ASTNode>, std::string_view>>(maybe_tree));
+	auto tree = std::move(std::get<std::pair<std::unique_ptr<ASTNode>, std::string_view>>(maybe_tree).first);
 
 	// the tree structure will be ((sin(1) + cos(2)) + tan(3)) + ctg(4)
 	std::unique_ptr<BinOpNode> binop;
@@ -188,8 +188,8 @@ TEST_CASE("Parser understands cyclometric functions", "[parser]") {
 	auto parser = Parser("asin(1) + acos(2) + atan(3)");
 	auto maybe_tree = parser.parse();
 
-	REQUIRE(std::holds_alternative<std::pair<std::unique_ptr<ASTNode>, std::string>>(maybe_tree));
-	auto tree = std::move(std::get<std::pair<std::unique_ptr<ASTNode>, std::string>>(maybe_tree).first);
+	REQUIRE(std::holds_alternative<std::pair<std::unique_ptr<ASTNode>, std::string_view>>(maybe_tree));
+	auto tree = std::move(std::get<std::pair<std::unique_ptr<ASTNode>, std::string_view>>(maybe_tree).first);
 
 	std::unique_ptr<BinOpNode> binop;
 	REQUIRE_NOTHROW(binop = std::make_unique<BinOpNode>(std::move(dynamic_cast<BinOpNode&>(*tree))));
@@ -228,8 +228,8 @@ TEST_CASE("Parser understands root functions", "[parser]") {
 	auto parser = Parser("sqrt(1) + cbrt(2) + root(3, 4)");
 	auto maybe_tree = parser.parse();
 
-	REQUIRE(std::holds_alternative<std::pair<std::unique_ptr<ASTNode>, std::string>>(maybe_tree));
-	auto tree = std::move(std::get<std::pair<std::unique_ptr<ASTNode>, std::string>>(maybe_tree).first);
+	REQUIRE(std::holds_alternative<std::pair<std::unique_ptr<ASTNode>, std::string_view>>(maybe_tree));
+	auto tree = std::move(std::get<std::pair<std::unique_ptr<ASTNode>, std::string_view>>(maybe_tree).first);
 
 	std::unique_ptr<BinOpNode> binop;
 	REQUIRE_NOTHROW(binop = std::make_unique<BinOpNode>(std::move(dynamic_cast<BinOpNode&>(*tree))));
@@ -272,8 +272,8 @@ TEST_CASE("Parser understands logarithm functions", "[parser]") {
 	auto parser = Parser("ln(1) + log(2,3)");
 	auto maybe_tree = parser.parse();
 
-	REQUIRE(std::holds_alternative<std::pair<std::unique_ptr<ASTNode>, std::string>>(maybe_tree));
-	auto tree = std::move(std::get<std::pair<std::unique_ptr<ASTNode>, std::string>>(maybe_tree).first);
+	REQUIRE(std::holds_alternative<std::pair<std::unique_ptr<ASTNode>, std::string_view>>(maybe_tree));
+	auto tree = std::move(std::get<std::pair<std::unique_ptr<ASTNode>, std::string_view>>(maybe_tree).first);
 
 	std::unique_ptr<BinOpNode> binop;
 	REQUIRE_NOTHROW(binop = std::make_unique<BinOpNode>(std::move(dynamic_cast<BinOpNode&>(*tree))));
@@ -304,8 +304,8 @@ TEST_CASE("Parser passes on lexer errors", "[parser]") {
 	auto parser = Parser("%4+dud 2!");
 	auto maybe_tree = parser.parse();
 
-	REQUIRE(std::holds_alternative<std::pair<std::unique_ptr<ASTNode>, std::string>>(maybe_tree));
-	auto errs = std::move(std::get<std::pair<std::unique_ptr<ASTNode>, std::string>>(maybe_tree).second);
+	REQUIRE(std::holds_alternative<std::pair<std::unique_ptr<ASTNode>, std::string_view>>(maybe_tree));
+	auto errs = std::move(std::get<std::pair<std::unique_ptr<ASTNode>, std::string_view>>(maybe_tree).second);
 
 	REQUIRE(!errs.empty());
 }
@@ -351,8 +351,8 @@ TEST_CASE("Parser understands the deg function", "[parser]") {
 	auto parser = Parser("deg(90)");
 	auto maybe_tree = parser.parse();
 
-	REQUIRE(std::holds_alternative<std::pair<std::unique_ptr<ASTNode>, std::string>>(maybe_tree));
-	auto tree = std::move(std::get<std::pair<std::unique_ptr<ASTNode>, std::string>>(maybe_tree).first);
+	REQUIRE(std::holds_alternative<std::pair<std::unique_ptr<ASTNode>, std::string_view>>(maybe_tree));
+	auto tree = std::move(std::get<std::pair<std::unique_ptr<ASTNode>, std::string_view>>(maybe_tree).first);
 	
 	std::unique_ptr<UnOpNode> deg;
 	REQUIRE_NOTHROW(deg = std::make_unique<UnOpNode>(std::move(dynamic_cast<UnOpNode&>(*tree))));

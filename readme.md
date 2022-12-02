@@ -8,7 +8,7 @@ One that I can recommend is [qalculate](https://qalculate.github.io/).
 
 ## Building
 
-On any platform you're gonna need a C++ compiler with C++17 support.
+On any platform you're gonna need a C++ compiler with C++20 support.
 
 ### Linux and other Unix-like
 

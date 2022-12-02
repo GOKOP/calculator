@@ -22,5 +22,5 @@ public:
 	virtual void visit(const UnOpNode& node) override;
 	virtual void visit(const ConstantNode& node) override;
 	
-	std::variant<double, std::string> evaluate(std::unique_ptr<ASTNode>& tree);
+	std::variant<double, std::string_view> evaluate(std::unique_ptr<ASTNode>& tree);
 };

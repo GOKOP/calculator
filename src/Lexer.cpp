@@ -1,7 +1,7 @@
 #include "Lexer.hpp"
 #include <cctype>
 
-Lexer::Lexer(const std::string& input): 
+Lexer::Lexer(std::string_view input): 
 	input(input), 
 	current_pos(0),
 	errors("")
@@ -18,15 +18,14 @@ double Lexer::get_number() {
 	return std::stod(number_str);
 }
 
-std::string Lexer::get_word() {
-	std::string result;
+std::string_view Lexer::get_word() {
+	auto begin = input.begin() + current_pos;
 
 	while(isalnum(input[current_pos])) {
-		result += input[current_pos];
 		++current_pos;
 	}
 
-	return result;
+	return std::string_view(begin, input.begin() + current_pos);
 }
 
 void Lexer::skip_whitespace() {
@@ -65,7 +64,7 @@ Token Lexer::get_next_token() {
 			if(word == "pi") return { Token::Pi, 0, pos };
 			if(word == "e") return { Token::E, 0, pos };
 			if(word == "deg") return { Token::Deg, 0, pos };
-			errors += "Unknown name '" + word + "' ignored at position ";
+			errors += "Unknown name '" + std::string(word) + "' ignored at position ";
 			errors += std::to_string(pos) + "\n";
 			continue;
 		}
@@ -90,6 +89,6 @@ Token Lexer::get_next_token() {
 	return { Token::Eof, 0, current_pos+1 };
 }
 
-std::string Lexer::get_errors() const {
+std::string_view Lexer::get_errors() const {
 	return errors;
 }

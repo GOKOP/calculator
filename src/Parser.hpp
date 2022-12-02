@@ -24,10 +24,10 @@ class Parser {
 	std::unique_ptr<ASTNode> add_expr();
 
 public:
-	Parser(const std::string& input);
+	Parser(std::string_view input);
 
 	// ok this looks ugly but it's all because lexer errors are basically ignored
 	// parse() returns a variant with either a correctly formed AST *and* lexer errors,
 	// *or* lexer errors concatenated with parser errors
-	std::variant<std::pair<std::unique_ptr<ASTNode>, std::string>, std::string> parse();
+	std::variant<std::pair<std::unique_ptr<ASTNode>, std::string_view>, std::string> parse();
 };

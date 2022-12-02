@@ -86,7 +86,7 @@ void Evaluator::visit(const ConstantNode& node) {
 	if(result < EPSILON && result > -EPSILON) result = 0;
 }
 
-std::variant<double, std::string> Evaluator::evaluate(std::unique_ptr<ASTNode>& tree) {
+std::variant<double, std::string_view> Evaluator::evaluate(std::unique_ptr<ASTNode>& tree) {
 	tree->accept(*this);
 	if(!errors.empty()) return errors;
 	return result;

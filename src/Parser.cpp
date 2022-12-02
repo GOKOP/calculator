@@ -37,7 +37,7 @@ std::string show_token_type(Token::Type type) {
 	return "abomination";
 }
 
-Parser::Parser(const std::string& input): 
+Parser::Parser(std::string_view input): 
 	lexer(Lexer(input)),
 	errors("")
 {
@@ -55,7 +55,7 @@ void Parser::eat(Token::Type type) {
 }
 
 void Parser::eat(const std::vector<Token::Type>& types) {
-	if(std::find(types.begin(), types.end(), current_token.type) != types.end()) {
+	if(std::ranges::find(types, current_token.type) != types.end()) {
 		current_token = lexer.get_next_token();
 	} else {
 		errors += "Invalid syntax at position " + std::to_string(current_token.pos);
@@ -81,7 +81,7 @@ std::optional<std::unique_ptr<ASTNode>> Parser::function() {
 	                    Token::Sin, Token::Cos, Token::Tan, Token::Ctg,
 	                    Token::Asin, Token::Acos, Token::Atan,
 	                    Token::Ln, Token::Log, Token::Deg};
-	if(std::find(func_tokens.begin(), func_tokens.end(), token_type) == func_tokens.end()) return {};
+	if(std::ranges::find(func_tokens, token_type) == func_tokens.end()) return {};
 	eat(func_tokens);
 	eat(Token::Lparen);
 	
@@ -233,7 +233,7 @@ std::unique_ptr<ASTNode> Parser::add_expr() {
 	return node;
 }
 
-std::variant<std::pair<std::unique_ptr<ASTNode>, std::string>, std::string> Parser::parse() {
+std::variant<std::pair<std::unique_ptr<ASTNode>, std::string_view>, std::string> Parser::parse() {
 	/* add_expr: mul_expr(Plus|Minus mul_expr)*
 	 * mul_expr: pow_expr(Mul|Div pow_expr)*
 	 * pow_expr: factor(Pow factor)*
@@ -246,7 +246,7 @@ std::variant<std::pair<std::unique_ptr<ASTNode>, std::string>, std::string> Pars
 	auto tree = add_expr();
 	eat(Token::Eof);
 
-	if(!errors.empty()) return lexer.get_errors() + errors;
+	if(!errors.empty()) return std::string(lexer.get_errors()) + errors;
 
 	return std::make_pair(std::move(tree), lexer.get_errors());
 }
